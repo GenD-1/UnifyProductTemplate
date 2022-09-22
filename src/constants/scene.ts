@@ -82,7 +82,7 @@ export const modelScaleValue = 10
 
 export const bloomParams = {
     exposure: 1,
-    bloomStrength: 0.25,
-    bloomThreshold: 0,
-    bloomRadius: 0.1
+    bloomStrength: 2,
+    bloomThreshold: 0.1,
+    bloomRadius: 1
 };

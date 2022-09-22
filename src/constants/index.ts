@@ -108,7 +108,7 @@ export const pendantsModelProps = [
         }
     }, {
         id: 5,
-        src: './models/gem_drop.glb',
+        src: './models/Diamond.glb',
         drawable: true,
         page: 2,
         pageIndex: 2,
@@ -117,7 +117,7 @@ export const pendantsModelProps = [
         meshSize: [0.0001, 0.0001, 0.00001],
         feather: true,
         details: {
-            name: `Gem Drop`,
+            name: `Diamond`,
             description: `Scrollable Text`,
             assets: [
                 {

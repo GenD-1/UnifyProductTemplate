@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import useStore from "../../store"
 
-export const SpriteEffect = ({ canStart }: any) => {
+export const SpriteEffect = ({ width = 1024, height = 540, canStart }: any) => {
     const spriteImageArray = useStore((state: any) => state.spriteImageArray)
 
     const canvasRef = useRef() as any
@@ -11,6 +11,8 @@ export const SpriteEffect = ({ canStart }: any) => {
     let frame = 1
     const speed = 1
 
+    const [ ended, setEnded ] = useState(false)
+
     const animate = () => {
 
         const canvas = canvasRef.current
@@ -18,10 +20,12 @@ export const SpriteEffect = ({ canStart }: any) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
         const index = Math.ceil(frame / speed)
-        ctx.drawImage( spriteImageArray.sparkleImgs[index - 1], 0, 0, 2048, 1024, 0, 0, canvas.width, canvas.height )
+        ctx.drawImage( spriteImageArray.sparkleImgs[index - 1], 0, 0, 2048, 1080, 0, 0, canvas.width, canvas.height )
 
-        if( index >= frameCount )
+        if( index >= frameCount ) {
+            setEnded(true)
             return
+        }
 
         frame ++
 
@@ -34,7 +38,9 @@ export const SpriteEffect = ({ canStart }: any) => {
 
     return (
         <div>
-            <canvas ref={ canvasRef } width={1024} height={512} />
+            { !ended ? (
+                <canvas ref={ canvasRef } width={width} height={height} />
+            ): null }
         </div>
     )
 }
