@@ -8,6 +8,9 @@ import Scene from '../../components/Scene'
 import { SpriteEffect } from '../../components/Sprite/canvas'
 import { pendantsModelProps, soundArray } from '../../constants'
 import useStore from '../../store'
+import ShareModal from 'react-modal';
+
+ShareModal.setAppElement('#root');
 
 const opacityAnimation = keyframes`
     0% { opacity: 0; }
@@ -63,7 +66,7 @@ const LogoWrapper = styled.div`
         max-height: 100%;
 
         opacity: 0;
-        animation: ${ opacityAnimation } 5s;
+        animation: ${opacityAnimation} 5s;
         animation-delay: 0s;
         animation-fill-mode: forwards;
     }
@@ -72,7 +75,7 @@ const LogoWrapper = styled.div`
         max-width: 80%;
 
         opacity: 0;
-        animation: ${ opacityAnimation } 5s;
+        animation: ${opacityAnimation} 5s;
         animation-delay: 1s;
         animation-fill-mode: forwards;
     }
@@ -98,7 +101,7 @@ const SrcButton = styled.div`
         top: 30%;
         left: 12%;
         border: 1px solid #123;
-        animation: ${ circleAnimation } 1s infinite;
+        animation: ${circleAnimation} 1s infinite;
         animation-timing-function: ease-in;
         animation-delay: .2s;
     }
@@ -110,7 +113,7 @@ const SrcButton = styled.div`
         left: 12%;
         border: 1px solid #123;
 
-        animation: ${ circleAnimation } 1s infinite;
+        animation: ${circleAnimation} 1s infinite;
         animation-timing-function: ease-in;
         animation-delay: .5s;
     }
@@ -122,7 +125,7 @@ const SrcButton = styled.div`
         left: 88%;
         border: 1px solid #123;
 
-        animation: ${ circleAnimation } 1s infinite;
+        animation: ${circleAnimation} 1s infinite;
         animation-timing-function: ease-in;
         animation-delay: .8s;
     }
@@ -134,7 +137,7 @@ const SrcButton = styled.div`
         left: 88%;
         border: 1px solid #123;
 
-        animation: ${ circleAnimation } 1s infinite;
+        animation: ${circleAnimation} 1s infinite;
         animation-timing-function: ease-in;
         animation-delay: .3s;
     }
@@ -147,7 +150,7 @@ const ActionWrapper = styled.div`
     p {
         font-family: Apple Chancery;
         opacity: 0;
-        animation: ${ opacityAnimation } 5s;
+        animation: ${opacityAnimation} 5s;
         animation-delay: 0s;
         animation-fill-mode: forwards;
     }
@@ -164,7 +167,7 @@ const ProductName = styled.div`
     top: 14%;
 
     opacity: 0;
-    animation: ${ opacityAnimation } 5s;
+    animation: ${opacityAnimation} 5s;
     animation-delay: 2s;
     animation-fill-mode: forwards;
     font-family: Snell Roundhand2;
@@ -172,7 +175,7 @@ const ProductName = styled.div`
 
 const ProductDesc = styled.div`
     opacity: 0;
-    animation: ${ opacityAnimation1 } 5s;
+    animation: ${opacityAnimation1} 5s;
     animation-fill-mode: forwards;
 
     font-family: Apple Chancery;
@@ -191,6 +194,32 @@ const ProductDesc = styled.div`
     }
 `
 
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '30%',
+        height: '40%'
+    },
+};
+
+const customStylescopy = {
+    content: {
+        top: '90%',
+        left: '10%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '15%',
+        height: '8%',
+    },
+}
+
 export const Editor = () => {
     const { id } = useParams()
 
@@ -201,6 +230,8 @@ export const Editor = () => {
     const setCanStartAnim = useStore((state: any) => state.setCanStartAnim)
 
     const [isOpen, setIsOpen] = useState(false)
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [copyModelOpen, setCopyModelOpen] = useState(false)
     const [ selectedButton, setSelectedButton ] = useState(0) as any
 
     const [ bloom, setBloom ] = useState(true)
@@ -221,7 +252,7 @@ export const Editor = () => {
     }
 
     useEffect(() => {
-        if( showInfo ) {
+        if (showInfo) {
             soundArray['chime'].currentTime = 0
             soundArray['chime'].play()
 
@@ -229,10 +260,10 @@ export const Editor = () => {
                 soundArray['voice'].play()
             }, 1500)
         }
-    }, [ showInfo ])
-    
+    }, [showInfo])
+
     useEffect(() => {
-        if( canStartAnim ) {
+        if (canStartAnim) {
             soundArray['background'].play()
             soundArray['background'].onended = () => {
                 soundArray['background'].currentTime = 0
@@ -248,7 +279,20 @@ export const Editor = () => {
                 setBloom(false)
             }, 1000)
         }
-    }, [ canStartAnim ])
+    }, [canStartAnim])
+
+    const handleModal = (active: any) => {
+        setModalIsOpen(active);
+    }
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(window.location.href)
+        setCopyModelOpen(true)
+        setTimeout(() => {
+            setCopyModelOpen(false)
+            handleModal(false)
+        }, 2000)
+    }
 
     const getModelInfo = (id: any) => {
         const result = pendantsModelProps.find((item: any) => (
@@ -264,20 +308,20 @@ export const Editor = () => {
         <div className='overflow-hidden w-screen flex flex-col' style={{ minHeight: '-webkit-fill-available', height: window.innerHeight }}>
             <Preload />
 
-            { isLoadFinished ? (
+            {isLoadFinished ? (
                 <>
                     <CenterSpriteWrapper className='absolute overflow-hidden w-full flex justify-center items-center'>
-                        <SpriteEffect canStart={ showInfo } />
+                        <SpriteEffect canStart={showInfo} />
                     </CenterSpriteWrapper>
 
-                    <CanvasWrapper 
-                        className={`w-full h-full relative flex justify-center items-center`} 
+                    <CanvasWrapper
+                        className={`w-full h-full relative flex justify-center items-center`}
                     >
                         <div className={`sceneWrapper ${ !canStartAnim ? 'opacity-0' : ''}`}>
                             <Scene modelId={id} bloom={ bloom } />
                         </div>
 
-                        { canStartAnim ? (
+                        {canStartAnim ? (
                             <>
                                 <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active1' : '' }`} onClick={ () => openModal(1) }>
                                     { selectedButton === 1 ? (
@@ -311,10 +355,10 @@ export const Editor = () => {
                                     <ProductDesc className='text-2xl my-4 third absolute top-0'>What this product is told here</ProductDesc>
                                 </ProductDescWrapper>
                             </>
-                        ) : null }
+                        ) : null}
                     </CanvasWrapper>
 
-                    { showInfo ? (
+                    {showInfo ? (
                         <>
                             <LogoWrapper className='flex flex-col justify-center items-center'>
                                 <img src={'/assets/BrandLogo_Template.png'} alt='pic'></img>
@@ -337,27 +381,57 @@ export const Editor = () => {
                                 </button>
 
                                 <p className='text-sm text-center'>
-                                    Share with friends or <br/>
+                                    Share with friends or <br />
                                     Invite them to a private room
                                 </p>
 
-                                <button className='flex flex-col justify-center items-center font-bold'>
+                                <button onClick={() => handleModal(true)} className='flex flex-col justify-center items-center font-bold'>
                                     <img src='/assets/ShareIcon.png' width={32} height={32} alt='pic'></img>
                                     Share
                                 </button>
                             </ActionWrapper>
                         </>
-                    ) : null }
+                    ) : null}
                 </>
-            ) : <Loader /> }
+            ) : <Loader />}
 
-            { (isLoadFinished && isModalLoaded && !canStartAnim) ? (
+            {(isLoadFinished && isModalLoaded && !canStartAnim) ? (
                 <div className='absolute t-0 l-0 w-full h-full flex justify-center items-center text-3xl font-Apple-Chancery' onClick={() => setCanStartAnim(true)}>
                     Click to Start
                 </div>
-            ): null }
+            ) : null}
 
-            <Modal isOpen={ isOpen } onClose={ closeModal } />
+            <Modal isOpen={isOpen} onClose={closeModal} />
+            <ShareModal
+                isOpen={modalIsOpen}
+                onRequestClose={() => handleModal(false)}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <div className='flex flex-col h-full'>
+                    <div className='flex'>
+                        <div>Share</div>
+                        <img onClick={() => handleModal(false)} src='assets/close.png' alt='close' className='w-6 ml-auto cursor-pointer'></img>
+                    </div>
+                    {/* <div className='flex h-full justify-center items-center'>Link Copied to clipboard</div> */}
+                    <div className='flex h-full justify-center items-center'>
+                        <div className='w-10/12 bg-[#f9f9f9] h-[35px] border-[1px] border-solid border-black p-[1%] rounded-sm flex justify-between'>
+                            <span>{window.location.href}</span>
+                            <div onClick={handleCopy} className='text-[#065fd4] cursor-pointer'>COPY</div>
+                        </div>
+                    </div>
+                </div>
+            </ShareModal>
+
+            <ShareModal
+                isOpen={copyModelOpen}
+                style={customStylescopy}
+                contentLabel="Example Modal"
+            >
+                <div className='flex flex-col'>
+                    <div className='flex justify-center items-center'>Link Copied to clipboard</div>
+                </div>
+            </ShareModal>
         </div>
     )
 }

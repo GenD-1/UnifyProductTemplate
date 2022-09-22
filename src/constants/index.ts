@@ -3,6 +3,8 @@ export const cameraTypes = {
     'Orthographic': 1,
 }
 
+export const COLORS_PRESENCE = ["255, 69, 225", "255, 64, 64", "255, 166, 3"];
+
 export const pendantsModelProps = [
     {
         id: 1,
