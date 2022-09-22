@@ -5,7 +5,6 @@ import { Suspense } from 'react'
 import Model from './model'
 import { Loader } from './Loader'
 import { pendantsModelProps } from '../../constants'
-import Effect from './effect'
 import { EffectComposer, Bloom, Noise } from '@react-three/postprocessing'
 
 export const Scene = ({ modelId, bloom }: any) => {
@@ -77,12 +76,10 @@ export const Scene = ({ modelId, bloom }: any) => {
                 />
             </Suspense>
 
-            {/* <Effect /> */}
-
-            <EffectComposer enabled={ bloom || true }>
+            {/* <EffectComposer enabled={ bloom || true }>
                 <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.5} intensity={2} radius={0.9} mipmapBlur />
                 <Noise opacity={0.02} />
-            </EffectComposer>
+            </EffectComposer> */}
         </Canvas>
     )
 }
