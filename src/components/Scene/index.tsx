@@ -5,8 +5,10 @@ import { Suspense } from 'react'
 import Model from './model'
 import { Loader } from './Loader'
 import { pendantsModelProps } from '../../constants'
+import Effect from './effect'
+import { EffectComposer, Bloom, Noise } from '@react-three/postprocessing'
 
-export const Scene = ({ modelId }: any) => {
+export const Scene = ({ modelId, bloom }: any) => {
     const scaleValue = modelScaleValue
 
     const getModelInfo = (id: any) => {
@@ -25,7 +27,7 @@ export const Scene = ({ modelId }: any) => {
             camera={{ fov: cameraProps.fov, position: [ cameraProps.position.x, cameraProps.position.y, cameraProps.position.z ] }}
             shadows
         >
-            {/* <color attach="background" args={[ backgroundColor ]} /> */}
+            {/* <color attach="background" args={[ 0x000000 ]} /> */}
 
             <ambientLight 
                 color={ ambientLightProps.color }
@@ -66,7 +68,6 @@ export const Scene = ({ modelId }: any) => {
                 minDistance={orbitControlProps.minDistance}
                 target={[ orbitControlProps.target[0], orbitControlProps.target[1], orbitControlProps.target[2] ]}
                 enablePan={false}
-                // autoRotate={true}
             />
 
             <Suspense fallback={<Loader />}>
@@ -75,6 +76,13 @@ export const Scene = ({ modelId }: any) => {
                     modelInfo={ modelInfo }
                 />
             </Suspense>
+
+            {/* <Effect /> */}
+
+            <EffectComposer enabled={ bloom }>
+                <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.5} intensity={2} radius={0.9} mipmapBlur />
+                <Noise opacity={0.02} />
+            </EffectComposer>
         </Canvas>
     )
 }

@@ -6,7 +6,7 @@ import Modal from '../../components/Modal'
 import Preload from '../../components/Preload'
 import Scene from '../../components/Scene'
 import { SpriteEffect } from '../../components/Sprite/canvas'
-import { soundArray } from '../../constants'
+import { pendantsModelProps, soundArray } from '../../constants'
 import useStore from '../../store'
 
 const opacityAnimation = keyframes`
@@ -201,16 +201,23 @@ export const Editor = () => {
     const setCanStartAnim = useStore((state: any) => state.setCanStartAnim)
 
     const [isOpen, setIsOpen] = useState(false)
+    const [ selectedButton, setSelectedButton ] = useState(0) as any
 
-    const openModal = () => {
+    const [ bloom, setBloom ] = useState(true)
+
+    const openModal = (index: number) => {
         setIsOpen(true)
 
         soundArray['chime'].currentTime = 0
         soundArray['chime'].play()
+
+        setSelectedButton(index)
     }
 
     const closeModal = () => {
         setIsOpen(false)
+        
+        setSelectedButton(0)
     }
 
     useEffect(() => {
@@ -236,8 +243,22 @@ export const Editor = () => {
                 soundArray['woosh'].currentTime = 1
                 soundArray['woosh'].play()
             }, 500)
+
+            setTimeout(() => {
+                setBloom(false)
+            }, 1000)
         }
     }, [ canStartAnim ])
+
+    const getModelInfo = (id: any) => {
+        const result = pendantsModelProps.find((item: any) => (
+            Number(item.id) === Number(id)
+        ))
+
+        return result
+    }
+
+    const modelInfo = getModelInfo( id ) as any
 
     return (
         <div className='overflow-hidden w-screen flex flex-col' style={{ minHeight: '-webkit-fill-available', height: window.innerHeight }}>
@@ -253,20 +274,36 @@ export const Editor = () => {
                         className={`w-full h-full relative flex justify-center items-center`} 
                     >
                         <div className={`sceneWrapper ${ !canStartAnim ? 'opacity-0' : ''}`}>
-                            <Scene modelId={id} />
+                            <Scene modelId={id} bloom={ bloom } />
                         </div>
 
                         { canStartAnim ? (
                             <>
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active1' : '' }`} onClick={ openModal }></SrcButton>
+                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active1' : '' }`} onClick={ () => openModal(1) }>
+                                    { selectedButton === 1 ? (
+                                        <SpriteEffect canStart={ true } width={512} height={270} />
+                                    ): null }
+                                </SrcButton>
 
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active2' : '' }`} onClick={ openModal }></SrcButton>
+                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active2' : '' }`} onClick={ () => openModal(2) }>
+                                    { selectedButton === 2 ? (
+                                        <SpriteEffect canStart={ true } width={512} height={270} />
+                                    ): null }
+                                </SrcButton>
 
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active3' : '' }`} onClick={ openModal }></SrcButton>
+                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active3' : '' }`} onClick={ () => openModal(3) }>
+                                    { selectedButton === 3 ? (
+                                        <SpriteEffect canStart={ true } width={512} height={270} />
+                                    ): null }
+                                </SrcButton>
 
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active4' : '' }`} onClick={ openModal }></SrcButton>
+                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active4' : '' }`} onClick={ () => openModal(4) }>
+                                    { selectedButton === 4 ? (
+                                        <SpriteEffect canStart={ true } width={512} height={270} />
+                                    ): null }
+                                </SrcButton>
 
-                                <ProductName className='text-4xl my-4'>Product Name</ProductName>
+                                <ProductName className='text-4xl my-4'>{ modelInfo.details.name }</ProductName>
 
                                 <ProductDescWrapper className="text-center">
                                     <ProductDesc className='text-2xl my-4 first'>What this product is told here</ProductDesc>
