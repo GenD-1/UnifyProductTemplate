@@ -23,7 +23,7 @@ function Room() {
         // onPointerMove={onCanvasPointerMove}
         // onPointerUp={onCanvasPointerUp}
         >
-            <div className='flex mt-2 ml-1.5 justify-end'>
+            <div className='flex mt-2 ml-1.5 justify-end absolute right-0'>
                 <div className='flex'>
                     {others.map(({ connectionId, presence }) => {
                         if (!connectionId) {
