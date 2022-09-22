@@ -79,7 +79,7 @@ export const Scene = ({ modelId, bloom }: any) => {
 
             {/* <Effect /> */}
 
-            <EffectComposer enabled={ bloom }>
+            <EffectComposer enabled={ bloom || true }>
                 <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.5} intensity={2} radius={0.9} mipmapBlur />
                 <Noise opacity={0.02} />
             </EffectComposer>
