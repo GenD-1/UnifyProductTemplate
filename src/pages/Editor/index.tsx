@@ -305,7 +305,7 @@ export const Editor = () => {
     const modelInfo = getModelInfo( id ) as any
 
     return (
-        <div className='overflow-hidden w-screen flex flex-col' style={{ minHeight: '-webkit-fill-available', height: window.innerHeight - 30 }}>
+        <div className='overflow-hidden w-screen flex flex-col' style={{ minHeight: '-webkit-fill-available', height: window.innerHeight }}>
             <Preload />
 
             {isLoadFinished ? (
