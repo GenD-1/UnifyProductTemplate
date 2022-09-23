@@ -282,16 +282,21 @@ export const Editor = () => {
 
     const modelInfo = getModelInfo( id ) as any
 
+    let voiceAudio = new Audio()
+    let chimeAudio = new Audio()
+    let wooshAudio = new Audio()
+    let backgroundAudio = new Audio()
+
     const onStart = () => {
         setCanStartAnim(true)
 
-        const voiceAudio = new Audio('/assets/sounds/VoiceOver_Template.mp3')
-        const chimeAudio = new Audio('/assets/sounds/ProductExperience_Chime.mp3')
-        const wooshAudio = new Audio('/assets/sounds/ProductExperience_Woosh.mp3')
-        // const backgroundAudio = new Audio('/assets/sounds/Background_Template.mp3')
+        voiceAudio.src = '/assets/sounds/VoiceOver_Template.mp3'
+        chimeAudio.src = '/assets/sounds/ProductExperience_Chime.mp3'
+        wooshAudio.src = '/assets/sounds/ProductExperience_Woosh.mp3'
+        backgroundAudio.src = '/assets/sounds/Background_Template.mp3'
 
-        soundArray['background'].play()
-        soundArray['background'].loop = true
+        backgroundAudio.play()
+        backgroundAudio.loop = true
         
         setTimeout(() => {
             chimeAudio.play()
