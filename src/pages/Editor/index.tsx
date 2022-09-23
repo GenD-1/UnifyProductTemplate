@@ -267,16 +267,18 @@ export const Editor = () => {
     useEffect(() => {
         if (canStartAnim) {
             // soundArray['background'].play()
-            // soundArray['background'].onended = () => {
-            //     soundArray['background'].currentTime = 0
-            //     soundArray['background'].play()
-            // }
+            // soundArray['background'].loop = true
+            
+            // soundArray['chime'].play()
+            // soundArray['voice'].play()
 
             setTimeout(() => {
+                soundArray['chime'].autoplay = true
                 soundArray['chime'].play()
             }, 1200)
             
             setTimeout(() => {
+                soundArray['voice'].autoplay = true
                 soundArray['voice'].play()
             }, 2700)
 
@@ -406,7 +408,7 @@ export const Editor = () => {
             ) : <Loader />}
 
             {(isLoadFinished && isModalLoaded && !canStartAnim) ? (
-                <div className='absolute t-0 l-0 w-full h-full flex justify-center items-center text-3xl font-Apple-Chancery' onClick={() => setCanStartAnim(true)}>
+                <div className='absolute t-0 l-0 w-full h-full flex justify-center items-center text-3xl font-Apple-Chancery' onClick={() => setCanStartAnim(true)} onTouchStart={() => setCanStartAnim(true)}>
                     Click to Start
                 </div>
             ) : null}
