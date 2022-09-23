@@ -300,7 +300,7 @@ export const Editor = () => {
         
         setTimeout(() => {
             chimeAudio.play()
-        }, 1200)
+        }, 800)
         
         setTimeout(() => {
             voiceAudio.play()
