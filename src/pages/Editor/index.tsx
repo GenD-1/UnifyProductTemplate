@@ -31,7 +31,7 @@ const circleAnimation = keyframes`
 `
 
 const CanvasWrapper = styled.div`
-    height: calc(100% - 56px);
+    height: calc(100% - 56px - 35px);
 
     .sceneWrapper {
         width: 100%;
@@ -56,7 +56,7 @@ const CenterSpriteWrapper = styled.div`
 
 const LogoWrapper = styled.div`
     position: absolute;
-    top: 0;
+    top: 35px;
     height: 15%;
     width: 100%;
     font-family: Apple Chancery;
@@ -297,6 +297,9 @@ export const Editor = () => {
 
         backgroundAudio.play()
         backgroundAudio.loop = true
+
+        // soundArray['background'].play()
+        // soundArray['background'].loop = true
         
         setTimeout(() => {
             chimeAudio.currentTime = 0.3
@@ -356,7 +359,8 @@ export const Editor = () => {
                                     ): null }
                                 </SrcButton>
 
-                                <ProductName className='text-4xl my-4'>{ modelInfo.details.name }</ProductName>
+                                {/* <ProductName className='text-4xl my-4'>{ modelInfo.details.name }</ProductName> */}
+                                <ProductName className='text-4xl my-4'>Product Name</ProductName>
 
                                 <ProductDescWrapper className="text-center">
                                     <ProductDesc className='text-2xl my-4 first'>What this product is told here</ProductDesc>
