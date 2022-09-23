@@ -1,7 +1,8 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
+import ComponentLoader from '../ComponentLoader'
 
 const CloseIconWrapper = styled.button`
     position: absolute;
@@ -19,6 +20,33 @@ const ContentWrapper = styled.div`
 `
 
 export default function ThumbnailModal({ isOpen, onClose, info }: any) {
+    const [ isLoading, setIsLoading ] = useState(true)
+
+    useEffect(() => {
+        setIsLoading(true)
+
+        if( info && info.src ) {
+            if( info.type === 'video' ) {
+                const video = document.createElement('video')
+                video.setAttribute('src', info.src)
+                document.body.appendChild(video)
+                video.load()
+                video.addEventListener('loadeddata', function() {                    
+                    document.body.removeChild(video)
+                    setIsLoading(false)
+                 }, false);
+            } else {
+                const image = document.createElement('img')
+                image.setAttribute('src', info.src)
+                document.body.appendChild(image)
+                image.onload = () => {
+                    document.body.removeChild(image)
+                    setIsLoading(false)
+                }
+            }
+        }
+    }, [ info ])
+
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
@@ -36,7 +64,7 @@ export default function ThumbnailModal({ isOpen, onClose, info }: any) {
                     </Transition.Child>
 
                     <div className="fixed inset-0 overflow-y-auto">
-                        <div className="flex w-screen h-screen items-center justify-center p-4 text-center relative">
+                        <div className="flex w-screen items-center justify-center p-4 text-center relative" style={{ minHeight: '-webkit-fill-available', height: window.innerHeight }}>
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"
@@ -58,10 +86,12 @@ export default function ThumbnailModal({ isOpen, onClose, info }: any) {
                                                     <source src={ info.src } type="video/mp4"/>
                                                 </video>
                                             ): (
-                                                <img alt='pic' src={ info.src } />
+                                                <img alt='pic' src={ info.src }/>
                                             ) }
                                         </ContentWrapper>
                                     ): null }
+
+                                    { isLoading ? <ComponentLoader /> : null }
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>
