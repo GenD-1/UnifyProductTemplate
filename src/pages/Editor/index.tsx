@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
 import Loader from '../../components/Loader'
-import Modal from '../../components/Modal'
 import Preload from '../../components/Preload'
 import Scene from '../../components/Scene'
 import { SpriteEffect } from '../../components/Sprite/canvas'
-import { pendantsModelProps, soundArray } from '../../constants'
 import useStore from '../../store'
 import ShareModal from 'react-modal';
+import ThumbnailButtons from './thumbnail'
 
 ShareModal.setAppElement('#root');
 
@@ -22,12 +21,6 @@ const opacityAnimation1 = keyframes`
     25% { opacity: 1; }
     75% { opacity: 1; }
     100% { opacity: 0; }
-`
-
-const circleAnimation = keyframes`
-    0% { margin-top: -5px; }
-    50% { margin-top: 5px; }
-    100% { margin-top: -5px; }
 `
 
 const CanvasWrapper = styled.div`
@@ -81,62 +74,6 @@ const LogoWrapper = styled.div`
     }
 `
 
-const SrcButton = styled.div`
-    position: absolute;
-    width: 0px;
-    height: 0px;
-    border-radius: 100px;
-    transition: all 1s;
-    transform: translate3d(-50%, -50%, 0);
-    left: 50%;
-    top: 50%;
-    right: 0%;
-    bottom: 0%;
-    cursor: pointer;
-
-    .sprite {
-        position: absolute;
-        transform: translate3d(-50%, -50%, 0);
-        left: 50%;
-        top: 50%;
-    }
-
-    &.active {
-        width: 40px;
-        height: 40px;
-
-        animation: ${circleAnimation} 1s infinite;
-        animation-timing-function: ease-in;
-    }
-    
-    &.active1 {
-        top: 34%;
-        left: 12%;
-
-        animation-delay: .2s;
-    }
-
-    &.active2 {
-        top: 68%;
-        left: 12%;
-
-        animation-delay: .5s;
-    }
-
-    &.active3 {
-        top: 34%;
-        left: 88%;
-
-        animation-delay: .8s;
-    }
-
-    &.active4 {
-        top: 68%;
-        left: 88%;
-
-        animation-delay: .3s;
-    }
-`
 
 const ActionWrapper = styled.div`
     // position: absolute;
@@ -224,27 +161,10 @@ export const Editor = () => {
     const canStartAnim = useStore((state: any) => state.canStartAnim)
     const setCanStartAnim = useStore((state: any) => state.setCanStartAnim)
 
-    const [isOpen, setIsOpen] = useState(false)
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [copyModelOpen, setCopyModelOpen] = useState(false)
-    const [ selectedButton, setSelectedButton ] = useState(0) as any
 
     const [ bloom, setBloom ] = useState(true)
-
-    const openModal = (index: number) => {
-        setIsOpen(true)
-
-        soundArray['chime'].currentTime = 0.3
-        soundArray['chime'].play()
-
-        setSelectedButton(index)
-    }
-
-    const closeModal = () => {
-        setIsOpen(false)
-        
-        setSelectedButton(0)
-    }
 
     useEffect(() => {
         if (canStartAnim) {
@@ -267,16 +187,6 @@ export const Editor = () => {
         }, 2000)
     }
 
-    const getModelInfo = (id: any) => {
-        const result = pendantsModelProps.find((item: any) => (
-            Number(item.id) === Number(id)
-        ))
-
-        return result
-    }
-
-    const modelInfo = getModelInfo( id ) as any
-
     let voiceAudio = new Audio()
     let chimeAudio = new Audio()
     let wooshAudio = new Audio()
@@ -292,9 +202,6 @@ export const Editor = () => {
 
         backgroundAudio.play()
         backgroundAudio.loop = true
-
-        // soundArray['background'].play()
-        // soundArray['background'].loop = true
         
         setTimeout(() => {
             chimeAudio.currentTime = 0.3
@@ -334,49 +241,14 @@ export const Editor = () => {
 
                         {canStartAnim ? (
                             <>
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active active1' : '' }`} onClick={ () => openModal(1) }>
-                                    <img alt='pic' src='/assets/IMG_src_Icon.png'></img>
-                                    { selectedButton === 1 ? (
-                                        <div className='sprite'>
-                                            <SpriteEffect canStart={ true } width={512} height={270} />
-                                        </div>
-                                    ): null }
-                                </SrcButton>
+                                <ThumbnailButtons />
 
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active active2' : '' }`} onClick={ () => openModal(2) }>
-                                    <img alt='pic' src='/assets/play-button.png'></img>
-                                    { selectedButton === 2 ? (
-                                        <div className='sprite'>
-                                            <SpriteEffect canStart={ true } width={512} height={270} />
-                                        </div>
-                                    ): null }
-                                </SrcButton>
-
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active active3' : '' }`} onClick={ () => openModal(3) }>
-                                    <img alt='pic' src='/assets/IMG_src_Icon.png'></img>
-                                    { selectedButton === 3 ? (
-                                        <div className='sprite'>
-                                            <SpriteEffect canStart={ true } width={512} height={270} />
-                                        </div>
-                                    ): null }
-                                </SrcButton>
-
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active active4' : '' }`} onClick={ () => openModal(4) }>
-                                    <img alt='pic' src='/assets/play-button.png'></img>
-                                    { selectedButton === 4 ? (
-                                        <div className='sprite'>
-                                            <SpriteEffect canStart={ true } width={512} height={270} />
-                                        </div>
-                                    ): null }
-                                </SrcButton>
-
-                                {/* <ProductName className='text-4xl my-4'>{ modelInfo.details.name }</ProductName> */}
                                 <ProductName className='text-4xl my-4'>Product Name</ProductName>
 
                                 <ProductDescWrapper className="text-center">
-                                    <ProductDesc className='text-2xl my-4 first'>What this product is told here</ProductDesc>
-                                    <ProductDesc className='text-2xl my-4 second absolute top-0'>What this product is told here</ProductDesc>
-                                    <ProductDesc className='text-2xl my-4 third absolute top-0'>What this product is told here</ProductDesc>
+                                    <ProductDesc className='text-2xl my-4 first w-full'>Touch the object with your fingers</ProductDesc>
+                                    <ProductDesc className='text-2xl my-4 second absolute top-0 w-full'>Pinch to zoom</ProductDesc>
+                                    <ProductDesc className='text-2xl my-4 third absolute top-0 w-full'>Double tap to purchase!</ProductDesc>
                                 </ProductDescWrapper>
                             </>
                         ) : null}
@@ -425,7 +297,7 @@ export const Editor = () => {
                 </div>
             ) : null}
 
-            <Modal isOpen={isOpen} onClose={closeModal} />
+            
             <ShareModal
                 isOpen={modalIsOpen}
                 onRequestClose={() => handleModal(false)}
