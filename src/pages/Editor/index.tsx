@@ -299,6 +299,7 @@ export const Editor = () => {
         backgroundAudio.loop = true
         
         setTimeout(() => {
+            chimeAudio.currentTime = 0.3
             chimeAudio.play()
         }, 800)
         
