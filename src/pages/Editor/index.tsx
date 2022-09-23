@@ -266,13 +266,19 @@ export const Editor = () => {
 
     useEffect(() => {
         if (canStartAnim) {
-            soundArray['voice'].play()
+            soundArray['background'].play()
+            soundArray['background'].onended = () => {
+                soundArray['background'].currentTime = 0
+                soundArray['background'].play()
+            }
 
-            // soundArray['background'].play()
-            // soundArray['background'].onended = () => {
-            //     soundArray['background'].currentTime = 0
-            //     soundArray['background'].play()
-            // }
+            setTimeout(() => {
+                soundArray['chime'].play()
+            }, 1200)
+            
+            setTimeout(() => {
+                soundArray['voice'].play()
+            }, 2700)
 
             // setTimeout(() => {
             //     soundArray['woosh'].currentTime = 1
