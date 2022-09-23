@@ -266,32 +266,30 @@ export const Editor = () => {
 
     useEffect(() => {
         if (canStartAnim) {
-            soundArray['chime'].play()
-
             soundArray['background'].play()
             soundArray['background'].loop = true
-            
-            // soundArray['chime'].play()
-            // soundArray['voice'].play()
+
+            const voiceAudio = new Audio('/assets/sounds/VoiceOver_Template.mp3')
+            const chimeAudio = new Audio('/assets/sounds/ProductExperience_Chime.mp3')
 
             setTimeout(() => {
-                soundArray['chime'].autoplay = true
-                soundArray['chime'].play()
+                chimeAudio.play()
             }, 1200)
             
             setTimeout(() => {
-                soundArray['voice'].autoplay = true
-                soundArray['voice'].play()
+                voiceAudio.play()
             }, 2700)
 
-            // setTimeout(() => {
-            //     soundArray['woosh'].currentTime = 1
-            //     soundArray['woosh'].play()
-            // }, 500)
+            const wooshAudio = new Audio('/assets/sounds/ProductExperience_Woosh.mp3')
 
-            // setTimeout(() => {
-            //     setBloom(false)
-            // }, 1000)
+            setTimeout(() => {
+                wooshAudio.currentTime = 1
+                wooshAudio.play()
+            }, 500)
+
+            setTimeout(() => {
+                setBloom(false)
+            }, 1000)
         }
     }, [canStartAnim])
 
