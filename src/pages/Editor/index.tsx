@@ -266,6 +266,8 @@ export const Editor = () => {
 
     useEffect(() => {
         if (canStartAnim) {
+            soundArray['chime'].play()
+
             // soundArray['background'].play()
             // soundArray['background'].loop = true
             
