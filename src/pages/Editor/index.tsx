@@ -266,11 +266,11 @@ export const Editor = () => {
 
     useEffect(() => {
         if (canStartAnim) {
-            soundArray['background'].play()
-            soundArray['background'].onended = () => {
-                soundArray['background'].currentTime = 0
-                soundArray['background'].play()
-            }
+            // soundArray['background'].play()
+            // soundArray['background'].onended = () => {
+            //     soundArray['background'].currentTime = 0
+            //     soundArray['background'].play()
+            // }
 
             setTimeout(() => {
                 soundArray['chime'].play()
