@@ -252,41 +252,7 @@ export const Editor = () => {
     }
 
     useEffect(() => {
-        // soundArray['voice'].play()
-
-        // if (showInfo) {
-        //     soundArray['chime'].currentTime = 0
-        //     soundArray['chime'].play()
-
-        //     setTimeout(() => {
-        //         soundArray['voice'].play()
-        //     }, 1500)
-        // }
-    }, [showInfo])
-
-    useEffect(() => {
         if (canStartAnim) {
-            soundArray['background'].play()
-            soundArray['background'].loop = true
-
-            const voiceAudio = new Audio('/assets/sounds/VoiceOver_Template.mp3')
-            const chimeAudio = new Audio('/assets/sounds/ProductExperience_Chime.mp3')
-
-            setTimeout(() => {
-                chimeAudio.play()
-            }, 1200)
-            
-            setTimeout(() => {
-                voiceAudio.play()
-            }, 2700)
-
-            const wooshAudio = new Audio('/assets/sounds/ProductExperience_Woosh.mp3')
-
-            setTimeout(() => {
-                wooshAudio.currentTime = 1
-                wooshAudio.play()
-            }, 500)
-
             setTimeout(() => {
                 setBloom(false)
             }, 1000)
@@ -315,6 +281,31 @@ export const Editor = () => {
     }
 
     const modelInfo = getModelInfo( id ) as any
+
+    const onStart = () => {
+        setCanStartAnim(true)
+
+        const voiceAudio = new Audio('/assets/sounds/VoiceOver_Template.mp3')
+        const chimeAudio = new Audio('/assets/sounds/ProductExperience_Chime.mp3')
+        const wooshAudio = new Audio('/assets/sounds/ProductExperience_Woosh.mp3')
+        // const backgroundAudio = new Audio('/assets/sounds/Background_Template.mp3')
+
+        soundArray['background'].play()
+        soundArray['background'].loop = true
+        
+        setTimeout(() => {
+            chimeAudio.play()
+        }, 1200)
+        
+        setTimeout(() => {
+            voiceAudio.play()
+        }, 2700)
+
+        setTimeout(() => {
+            wooshAudio.currentTime = 1
+            wooshAudio.play()
+        }, 500)
+    }
 
     return (
         <div className='overflow-hidden w-screen flex flex-col' style={{ minHeight: '-webkit-fill-available', height: window.innerHeight }}>
@@ -408,7 +399,7 @@ export const Editor = () => {
             ) : <Loader />}
 
             {(isLoadFinished && isModalLoaded && !canStartAnim) ? (
-                <div className='absolute t-0 l-0 w-full h-full flex justify-center items-center text-3xl font-Apple-Chancery' onClick={() => setCanStartAnim(true)} onTouchStart={() => setCanStartAnim(true)}>
+                <div className='absolute t-0 l-0 w-full h-full flex justify-center items-center text-3xl font-Apple-Chancery' onClick={ onStart } onTouchStart={() => setCanStartAnim(true)}>
                     Click to Start
                 </div>
             ) : null}
