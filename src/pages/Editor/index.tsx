@@ -239,7 +239,7 @@ export const Editor = () => {
     const openModal = (index: number) => {
         setIsOpen(true)
 
-        soundArray['chime'].currentTime = 0
+        soundArray['chime'].currentTime = 0.3
         soundArray['chime'].play()
 
         setSelectedButton(index)
