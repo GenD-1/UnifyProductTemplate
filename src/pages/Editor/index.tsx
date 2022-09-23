@@ -252,14 +252,16 @@ export const Editor = () => {
     }
 
     useEffect(() => {
-        if (showInfo) {
-            soundArray['chime'].currentTime = 0
-            soundArray['chime'].play()
+        soundArray['voice'].play()
 
-            setTimeout(() => {
-                soundArray['voice'].play()
-            }, 1500)
-        }
+        // if (showInfo) {
+        //     soundArray['chime'].currentTime = 0
+        //     soundArray['chime'].play()
+
+        //     setTimeout(() => {
+        //         soundArray['voice'].play()
+        //     }, 1500)
+        // }
     }, [showInfo])
 
     useEffect(() => {
