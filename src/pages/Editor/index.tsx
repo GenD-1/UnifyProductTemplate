@@ -31,7 +31,7 @@ const circleAnimation = keyframes`
 `
 
 const CanvasWrapper = styled.div`
-    height: calc(94% - 56px - 35px);
+    height: calc(92% - 56px - 35px);
 
     .sceneWrapper {
         width: 100%;
@@ -324,7 +324,7 @@ export const Editor = () => {
 
             {/* <div style={{ height: 35 }}></div> */}
 
-            <div style={{ height: '6%' }}></div>
+            <div style={{ height: '8%' }}></div>
 
             {isLoadFinished ? (
                 <>
