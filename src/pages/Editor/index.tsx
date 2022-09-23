@@ -31,7 +31,9 @@ const circleAnimation = keyframes`
 `
 
 const CanvasWrapper = styled.div`
-    height: calc(100% - 56px - 35px);
+    height: calc(94% - 56px - 35px);
+
+    margin-top: 22%;
 
     .sceneWrapper {
         width: 100%;
@@ -321,6 +323,8 @@ export const Editor = () => {
     return (
         <div className='overflow-hidden w-screen flex flex-col' style={{ minHeight: '-webkit-fill-available', height: window.innerHeight }}>
             <Preload />
+
+            {/* <div style={{ height: 35 }}></div> */}
 
             {isLoadFinished ? (
                 <>
