@@ -268,8 +268,8 @@ export const Editor = () => {
         if (canStartAnim) {
             soundArray['chime'].play()
 
-            // soundArray['background'].play()
-            // soundArray['background'].loop = true
+            soundArray['background'].play()
+            soundArray['background'].loop = true
             
             // soundArray['chime'].play()
             // soundArray['voice'].play()
