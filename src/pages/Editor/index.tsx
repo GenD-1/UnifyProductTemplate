@@ -92,15 +92,20 @@ const SrcButton = styled.div`
     top: 50%;
     right: 0%;
     bottom: 0%;
-    background: #ffff00;
     cursor: pointer;
+
+    .sprite {
+        position: absolute;
+        transform: translate3d(-50%, -50%, 0);
+        left: 50%;
+        top: 50%;
+    }
 
     &.active1 {
         width: 60px;
         height: 60px;
         top: 30%;
         left: 12%;
-        border: 1px solid #123;
         animation: ${circleAnimation} 1s infinite;
         animation-timing-function: ease-in;
         animation-delay: .2s;
@@ -111,7 +116,6 @@ const SrcButton = styled.div`
         height: 60px;
         top: 64%;
         left: 12%;
-        border: 1px solid #123;
 
         animation: ${circleAnimation} 1s infinite;
         animation-timing-function: ease-in;
@@ -123,7 +127,6 @@ const SrcButton = styled.div`
         height: 60px;
         top: 30%;
         left: 88%;
-        border: 1px solid #123;
 
         animation: ${circleAnimation} 1s infinite;
         animation-timing-function: ease-in;
@@ -135,7 +138,6 @@ const SrcButton = styled.div`
         height: 60px;
         top: 64%;
         left: 88%;
-        border: 1px solid #123;
 
         animation: ${circleAnimation} 1s infinite;
         animation-timing-function: ease-in;
@@ -336,26 +338,38 @@ export const Editor = () => {
                         {canStartAnim ? (
                             <>
                                 <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active1' : '' }`} onClick={ () => openModal(1) }>
+                                    <img alt='pic' src='/assets/IMG_src_Icon.png'></img>
                                     { selectedButton === 1 ? (
-                                        <SpriteEffect canStart={ true } width={512} height={270} />
+                                        <div className='sprite'>
+                                            <SpriteEffect canStart={ true } width={512} height={270} />
+                                        </div>
                                     ): null }
                                 </SrcButton>
 
                                 <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active2' : '' }`} onClick={ () => openModal(2) }>
+                                    <img alt='pic' src='/assets/play-button.png'></img>
                                     { selectedButton === 2 ? (
-                                        <SpriteEffect canStart={ true } width={512} height={270} />
+                                        <div className='sprite'>
+                                            <SpriteEffect canStart={ true } width={512} height={270} />
+                                        </div>
                                     ): null }
                                 </SrcButton>
 
                                 <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active3' : '' }`} onClick={ () => openModal(3) }>
+                                    <img alt='pic' src='/assets/IMG_src_Icon.png'></img>
                                     { selectedButton === 3 ? (
-                                        <SpriteEffect canStart={ true } width={512} height={270} />
+                                        <div className='sprite'>
+                                            <SpriteEffect canStart={ true } width={512} height={270} />
+                                        </div>
                                     ): null }
                                 </SrcButton>
 
                                 <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active4' : '' }`} onClick={ () => openModal(4) }>
+                                    <img alt='pic' src='/assets/play-button.png'></img>
                                     { selectedButton === 4 ? (
-                                        <SpriteEffect canStart={ true } width={512} height={270} />
+                                        <div className='sprite'>
+                                            <SpriteEffect canStart={ true } width={512} height={270} />
+                                        </div>
                                     ): null }
                                 </SrcButton>
 
