@@ -252,7 +252,7 @@ export const Editor = () => {
     }
 
     useEffect(() => {
-        soundArray['voice'].play()
+        // soundArray['voice'].play()
 
         // if (showInfo) {
         //     soundArray['chime'].currentTime = 0
@@ -266,20 +266,22 @@ export const Editor = () => {
 
     useEffect(() => {
         if (canStartAnim) {
-            soundArray['background'].play()
-            soundArray['background'].onended = () => {
-                soundArray['background'].currentTime = 0
-                soundArray['background'].play()
-            }
+            soundArray['voice'].play()
 
-            setTimeout(() => {
-                soundArray['woosh'].currentTime = 1
-                soundArray['woosh'].play()
-            }, 500)
+            // soundArray['background'].play()
+            // soundArray['background'].onended = () => {
+            //     soundArray['background'].currentTime = 0
+            //     soundArray['background'].play()
+            // }
 
-            setTimeout(() => {
-                setBloom(false)
-            }, 1000)
+            // setTimeout(() => {
+            //     soundArray['woosh'].currentTime = 1
+            //     soundArray['woosh'].play()
+            // }, 500)
+
+            // setTimeout(() => {
+            //     setBloom(false)
+            // }, 1000)
         }
     }, [canStartAnim])
 
