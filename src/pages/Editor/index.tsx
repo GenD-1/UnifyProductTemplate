@@ -101,46 +101,39 @@ const SrcButton = styled.div`
         top: 50%;
     }
 
-    &.active1 {
-        width: 60px;
-        height: 60px;
-        top: 30%;
-        left: 12%;
+    &.active {
+        width: 40px;
+        height: 40px;
+
         animation: ${circleAnimation} 1s infinite;
         animation-timing-function: ease-in;
+    }
+    
+    &.active1 {
+        top: 34%;
+        left: 12%;
+
         animation-delay: .2s;
     }
 
     &.active2 {
-        width: 60px;
-        height: 60px;
-        top: 64%;
+        top: 68%;
         left: 12%;
 
-        animation: ${circleAnimation} 1s infinite;
-        animation-timing-function: ease-in;
         animation-delay: .5s;
     }
 
     &.active3 {
-        width: 60px;
-        height: 60px;
-        top: 30%;
+        top: 34%;
         left: 88%;
 
-        animation: ${circleAnimation} 1s infinite;
-        animation-timing-function: ease-in;
         animation-delay: .8s;
     }
 
     &.active4 {
-        width: 60px;
-        height: 60px;
-        top: 64%;
+        top: 68%;
         left: 88%;
 
-        animation: ${circleAnimation} 1s infinite;
-        animation-timing-function: ease-in;
         animation-delay: .3s;
     }
 `
@@ -341,7 +334,7 @@ export const Editor = () => {
 
                         {canStartAnim ? (
                             <>
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active1' : '' }`} onClick={ () => openModal(1) }>
+                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active active1' : '' }`} onClick={ () => openModal(1) }>
                                     <img alt='pic' src='/assets/IMG_src_Icon.png'></img>
                                     { selectedButton === 1 ? (
                                         <div className='sprite'>
@@ -350,7 +343,7 @@ export const Editor = () => {
                                     ): null }
                                 </SrcButton>
 
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active2' : '' }`} onClick={ () => openModal(2) }>
+                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active active2' : '' }`} onClick={ () => openModal(2) }>
                                     <img alt='pic' src='/assets/play-button.png'></img>
                                     { selectedButton === 2 ? (
                                         <div className='sprite'>
@@ -359,7 +352,7 @@ export const Editor = () => {
                                     ): null }
                                 </SrcButton>
 
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active3' : '' }`} onClick={ () => openModal(3) }>
+                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active active3' : '' }`} onClick={ () => openModal(3) }>
                                     <img alt='pic' src='/assets/IMG_src_Icon.png'></img>
                                     { selectedButton === 3 ? (
                                         <div className='sprite'>
@@ -368,7 +361,7 @@ export const Editor = () => {
                                     ): null }
                                 </SrcButton>
 
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active4' : '' }`} onClick={ () => openModal(4) }>
+                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active active4' : '' }`} onClick={ () => openModal(4) }>
                                     <img alt='pic' src='/assets/play-button.png'></img>
                                     { selectedButton === 4 ? (
                                         <div className='sprite'>
