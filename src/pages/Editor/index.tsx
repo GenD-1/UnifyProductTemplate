@@ -399,7 +399,7 @@ export const Editor = () => {
             ) : <Loader />}
 
             {(isLoadFinished && isModalLoaded && !canStartAnim) ? (
-                <div className='absolute t-0 l-0 w-full h-full flex justify-center items-center text-3xl font-Apple-Chancery' onClick={ onStart } onTouchStart={() => setCanStartAnim(true)}>
+                <div className='absolute t-0 l-0 w-full h-full flex justify-center items-center text-3xl font-Apple-Chancery' onClick={ onStart } onTouchStart={ onStart }>
                     Click to Start
                 </div>
             ) : null}
