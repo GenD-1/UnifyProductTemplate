@@ -310,7 +310,7 @@ export const Editor = () => {
         setTimeout(() => {
             wooshAudio.currentTime = 1
             wooshAudio.play()
-        }, 500)
+        }, 50)
     }
 
     return (
