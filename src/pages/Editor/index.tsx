@@ -178,7 +178,7 @@ export const Editor = () => {
 
     const handleTouch = useDoubleTap(() => {
         handleCheckout();
-    });
+    }, 100);
 
     const handleCheckout = () => {
         setProductDetails([{
