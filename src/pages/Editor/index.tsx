@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
 import Loader from '../../components/Loader'
@@ -8,6 +8,8 @@ import { SpriteEffect } from '../../components/Sprite/canvas'
 import useStore from '../../store'
 import ShareModal from 'react-modal';
 import ThumbnailButtons from './thumbnail'
+import { useCheckout } from '../../context/CheckoutContext'
+import CheckoutModal from '../../components/CheckoutModal'
 
 ShareModal.setAppElement('#root');
 
@@ -164,6 +166,42 @@ export const Editor = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [copyModelOpen, setCopyModelOpen] = useState(false)
 
+    // Testing using false product data
+    // Setting dummy data into ProductDetails array
+    const { productDetails, setProductDetails } = useCheckout();
+    const [checkoutOpen, setCheckoutOpen] = useState(false)
+
+    // Double touch function
+    let lastClick = 0;
+    const checkoutRef = useRef<HTMLInputElement | null>(null);
+
+    const handleTouch = () => {
+        let date = new Date();
+        let time = date.getTime();
+        const time_between_taps = 500; // 200ms
+
+        if (time - lastClick < time_between_taps) {
+            handleCheckout();
+        }
+        lastClick = time;
+    }
+
+    const handleCheckout = () => {
+        setProductDetails([{
+            productName: 'anchor jewlery',
+            productColor: 'black',
+            productCost: 75.25,
+            productImage: 'sampleImg.png',
+            productQuantity: 1,
+            productDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting.',
+        }]);
+        setCheckoutOpen(true)
+    }
+
+    const closeCheckoutModal = () => {
+        setCheckoutOpen(false)
+    }
+
     const [ bloom, setBloom ] = useState(true)
 
     useEffect(() => {
@@ -235,7 +273,7 @@ export const Editor = () => {
                     <CanvasWrapper
                         className={`w-full h-full relative flex justify-center items-center`}
                     >
-                        <div className={`sceneWrapper ${ !canStartAnim ? 'opacity-0' : ''}`}>
+                        <div onTouchStart={handleTouch} className={`sceneWrapper ${ !canStartAnim ? 'opacity-0' : ''}`}>
                             <Scene modelId={id} bloom={ bloom } />
                         </div>
 
@@ -296,6 +334,8 @@ export const Editor = () => {
                     Click to Start
                 </div>
             ) : null}
+
+            <CheckoutModal isOpen={ checkoutOpen } onClose={ closeCheckoutModal } />
 
             
             <ShareModal
