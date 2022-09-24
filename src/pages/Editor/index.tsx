@@ -10,6 +10,7 @@ import ShareModal from 'react-modal';
 import ThumbnailButtons from './thumbnail'
 import { useCheckout } from '../../context/CheckoutContext'
 import CheckoutModal from '../../components/CheckoutModal'
+import { useDoubleTap } from 'use-double-tap';
 
 ShareModal.setAppElement('#root');
 
@@ -175,16 +176,9 @@ export const Editor = () => {
     let lastClick = 0;
     const checkoutRef = useRef<HTMLInputElement | null>(null);
 
-    const handleTouch = () => {
-        let date = new Date();
-        let time = date.getTime();
-        const time_between_taps = 500; // 200ms
-
-        if (time - lastClick < time_between_taps) {
-            handleCheckout();
-        }
-        lastClick = time;
-    }
+    const handleTouch = useDoubleTap(() => {
+        handleCheckout();
+    }, 200);
 
     const handleCheckout = () => {
         setProductDetails([{
@@ -273,7 +267,7 @@ export const Editor = () => {
                     <CanvasWrapper
                         className={`w-full h-full relative flex justify-center items-center`}
                     >
-                        <div onTouchStart={handleTouch} className={`sceneWrapper ${ !canStartAnim ? 'opacity-0' : ''}`}>
+                        <div {...handleTouch} className={`sceneWrapper ${ !canStartAnim ? 'opacity-0' : ''}`}>
                             <Scene modelId={id} bloom={ bloom } />
                         </div>
 
