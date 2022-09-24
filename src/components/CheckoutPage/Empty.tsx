@@ -12,7 +12,7 @@ export default function Empty({close}: any) {
                 <hr className="border-0 ml-2 mt-2 border-t border-gray-200" />
             </span>
             <div className="m-auto">
-                <img src="/assets/checkout_images/emptyImg.png" width="100" className="m-auto" alt="empty cart" />
+                <img src="/assets/checkout_images/emptyImg.png" width="100" className="m-auto" alt="empty image" />
                 <p className="text-center mt-2 font-semibold text-2xl">Empty Cart</p>
             </div>
         </div>

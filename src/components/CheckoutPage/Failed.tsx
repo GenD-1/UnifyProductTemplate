@@ -19,7 +19,7 @@ export default function Failed() {
                 <hr className="border-0 ml-2 mt-2 border-t border-gray-200" />
             </span>
             <div className="m-auto">
-                <img src="/assets/checkout_images/errorImg.png" width="100" className="m-auto" alt="sucess page" />
+                <img src="/assets/checkout_images/errorImg.png" width="100" className="m-auto" alt="sucess image" />
                 <p className="text-center my-2 font-semibold text-2xl">Payment failed</p>
             </div>
         </div>
