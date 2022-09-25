@@ -141,7 +141,6 @@ export default function ApplePay() {
   return (
     <div className="disabled">
       <ApplePayButton>
-        {"Add Card"}
       </ApplePayButton>
     </div>
   );
