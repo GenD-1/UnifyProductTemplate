@@ -1,12 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect } from 'react';
+// import { useShoppingCart } from 'use-shopping-cart';
 import { useCheckout } from '../../context/CheckoutContext'
+import { ApplePayButton } from "react-apple-pay-button";
 import { PaymentRequestButtonElement, useStripe } from '@stripe/react-stripe-js';
-import { paymentIntent } from '../../store/apple-pay-configuration';
 
 export default function ApplePay() {
-  const stripe = useStripe();
-  const [paymentRequest, setPaymentRequest] = React.useState(null);
+  // const { totalPrice, cartDetails, cartCount } = useShoppingCart();
   const { productDetails, setSuccessMessage, setErrorMessage } = useCheckout();
 
   const [{
@@ -15,33 +14,135 @@ export default function ApplePay() {
     productQuantity: productQuantity = 0,
   } = {}] = productDetails;
 
-  React.useEffect(() => {
-    if (stripe) {
+  const totalPrice = Number((productCost*productQuantity).toFixed(0));
+
+  const stripe = useStripe();
+  const [paymentRequest, setPaymentRequest] = useState(null);
+
+  const handleButtonClicked = (event) => {
+    paymentRequest.on('paymentmethod', handlePaymentMethodReceived);
+    paymentRequest.on('cancel', () => {
+      paymentRequest.off('paymentmethod');
+    });
+    return;
+  };
+
+  const handlePaymentMethodReceived = async (event) => {
+    // Send the cart details and payment details to our function.
+    const paymentDetails = {
+      payment_method: event.paymentMethod.id,
+      shipping: {
+        name: event.shippingAddress.recipient,
+        phone: event.shippingAddress.phone,
+        address: {
+          line1: event.shippingAddress.addressLine[0],
+          city: event.shippingAddress.city,
+          postal_code: event.shippingAddress.postalCode,
+          state: event.shippingAddress.region,
+          country: event.shippingAddress.country,
+        },
+      },
+    };
+    const response = await fetch('/.netlify/functions/create-payment-intent', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ paymentDetails }),
+    }).then((res) => {
+      return res.json();
+    });
+    if (response.error) {
+      // Report to the browser that the payment failed.
+      console.log(response.error);
+      event.complete('fail');
+    } else {
+      // Report to the browser that the confirmation was successful, prompting
+      // it to close the browser payment method collection interface.
+      event.complete('success');
+      // Let Stripe.js handle the rest of the payment flow, including 3D Secure if needed.
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        response.paymentIntent.client_secret
+      );
+      if (error) {
+        console.log(error);
+        return;
+      }
+      if (paymentIntent.status === 'succeeded') {
+        console.log('success');
+      } else {
+        console.warn(
+          `Unexpected status: ${paymentIntent.status} for ${paymentIntent}`
+        );
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (stripe && paymentRequest === null) {
       const pr = stripe.paymentRequest({
         country: 'US',
         currency: 'usd',
         total: {
-          label: productName,
-          amount: Number((productCost*productQuantity).toFixed(0)),
+          label: `${productName} x ${productQuantity}`,
+          amount: totalPrice,
+          pending: true,
         },
         requestPayerName: true,
         requestPayerEmail: true,
+        requestShipping: true,
+        shippingOptions: [
+          {
+            id: 'free',
+            label: 'Free shipping',
+            detail: 'Arrives in 5 to 7 days',
+            amount: 0,
+          },
+          {
+            id: 'express',
+            label: 'Express shipping',
+            detail: '$5.00 - Arrives in 1 to 3 days',
+            amount: 5,
+          },
+        ],
       });
-
-      // Check the availability of the Payment Request API.
-      pr.canMakePayment().then(result => {
+      // Check the availability of the Payment Request API first.
+      pr.canMakePayment().then((result) => {
         if (result) {
           setPaymentRequest(pr);
         }
       });
     }
-  }, [stripe]);
+  }, [stripe, paymentRequest, totalPrice]);
+
+  useEffect(() => {
+    if (paymentRequest) {
+      paymentRequest.update({
+        total: {
+          label: `${productName} x ${productQuantity}`,
+          amount: totalPrice,
+          pending: false,
+        },
+      });
+    }
+  }, [totalPrice, paymentRequest]);
 
   if (paymentRequest) {
-    return <PaymentRequestButtonElement options={{ paymentRequest }} />
+    return (
+      <div className="payment-request-button">
+        <PaymentRequestButtonElement
+          options={{ paymentRequest }}
+          onClick={ handleButtonClicked }
+        />
+      </div>
+    );
   }
 
-  // Use a traditional checkout form.
-  return <></>;
+  return (
+    <div className="disabled">
+      <ApplePayButton>
+        {"Add Card"}
+      </ApplePayButton>
+    </div>
+  );
 };
-

@@ -1,4 +1,5 @@
 import React from 'react'
+import "./index.scss"
 import { useCheckout } from '../../context/CheckoutContext'
 
 // Google button and payment functionality
