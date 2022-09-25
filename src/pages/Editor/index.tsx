@@ -187,7 +187,7 @@ export const Editor = () => {
             productCost: 75.25,
             productImage: 'sampleImg.png',
             productQuantity: 1,
-            productDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting.',
+            productDescription: 'Lorem Ipsum is the simple dummy text of the printing world.',
         }]);
         setCheckoutOpen(true)
     }
