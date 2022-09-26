@@ -43,6 +43,9 @@ export default function ApplePay() {
         },
       },
     };
+
+    console.log(paymentDetails);
+
     const response = await fetch('/.netlify/functions/create-payment-intent', {
       method: 'post',
       headers: {
