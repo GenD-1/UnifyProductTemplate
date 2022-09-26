@@ -14,7 +14,7 @@ export default function ApplePay() {
     productQuantity: productQuantity = 0,
   } = {}] = productDetails;
 
-  const 400 = Number((productCost*productQuantity).toFixed(0));
+  const totalPrice = Number((productCost*productQuantity).toFixed(0));
 
   const stripe = useStripe();
   const [paymentRequest, setPaymentRequest] = useState(null);
