@@ -33,33 +33,28 @@ export default function PaymentRadio({setPaymentType}: any ) {
     return (
         <div className="mt-6">
             {
-                (!checked || open) && paymentOptions.map((pay, i) => (
+                paymentOptions.map((pay, i) => (
                     <React.Fragment key={i}>
+                    <div>
+                        {i+1 === checked?.payment_id ? 'true' : 'false'}
+                    </div>
                         <button onClick={() => handleSelected(pay)} className="flex w-full items-center justify-between">
                             <span className="flex items-center">
                             <img src={pay.image} alt={pay.name} width='50' />
                                 <label className='ml-3'>{pay.name}</label>
                             </span>
-                            <input type="radio" name={pay.name} value={pay.payment_id} />
+                            <input
+                                type="radio"
+                                name={pay.name}
+                                value={pay.payment_id}
+                                checked={i+1 === checked?.payment_id}
+                            />
                         </button>
                         <hr className="border-0 my-3 border-t border-gray-300" />
                     </React.Fragment>
                 ))
             }
-            {
-                checked && !open && (
-                    <React.Fragment>
-                        <button onClick={() => setOpen(true)} className="flex w-full items-center justify-between">
-                            <span className="flex items-center">
-                            <img src={checked?.image} alt={checked?.name} width='50' />
-                                <label className='ml-3'>{checked?.name}</label>
-                            </span>
-                            <input type="radio" name={checked?.name} defaultChecked value={checked?.name} />
-                        </button>
-                        <hr className="border-0 my-3 border-t border-gray-300" />
-                    </React.Fragment>
-                )
-            }
+
         </div>
     )
 }
