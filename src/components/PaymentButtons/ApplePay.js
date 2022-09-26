@@ -114,7 +114,7 @@ export default function ApplePay() {
       });
     }
   }, [stripe, paymentRequest, totalPrice]);
-
+console.log('here')
   useEffect(() => {
     if (paymentRequest) {
       paymentRequest.update({
