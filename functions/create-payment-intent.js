@@ -45,12 +45,17 @@ exports.handler = async (event) => {
       // the fulfillment process.
       // In a real application you would track this in an order object in your database.
       metadata: {
-        items: JSON.stringify(
-          Object.keys(cartItems).map((sku) => ({
-            sku,
-            quantity: cartItems[sku].quantity,
-          }))
-        ),
+        attribution: "Photo by Priscilla Du Preez on Unsplash",
+        currency: "USD",
+        description: "Yummy yellow fruit",
+        formattedValue: "$4.00",
+        id: "sku_GBJ2Ep8246qeeT",
+        image: "https://images.unsplash.com/photo-1574226516831-e1dff420e562?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=225&q=80",
+        name: "Bananas",
+        price: 400,
+        quantity: 1,
+        sku: "sku_GBJ2Ep8246qeeT",
+        value: 400,
       },
     });
 
