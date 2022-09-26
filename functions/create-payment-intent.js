@@ -30,7 +30,7 @@ exports.handler = async (event) => {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: 400,
       currency: 'usd',
-      payment_method_types: ['card']
+      ...paymentDetails,
       // ...paymentDetails,
       // We are using the metadata to track which items were purchased.
       // We can access this meatadata in our webhook handler to then handle
