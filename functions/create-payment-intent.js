@@ -25,6 +25,7 @@ const inventory = require('./data/products.json');
  */
 
 exports.handler = async (event) => {
+  console.log(JSON.parse(event.body))
   try {
     const { cartDetails: cartItems, paymentDetails } = JSON.parse(event.body);
 

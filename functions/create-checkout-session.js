@@ -23,6 +23,7 @@ const validateCartItems = require('use-shopping-cart/src/serverUtil')
 const inventory = require('./data/products.json');
 
 exports.handler = async (event) => {
+  JSON.parse(event.body)
   try {
     const cartItems = JSON.parse(event.body);
 

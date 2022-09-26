@@ -77,7 +77,7 @@ export default function ApplePay() {
       }
     }
   };
-
+console.log(totalPrice)
   useEffect(() => {
     if (stripe && paymentRequest === null) {
       const pr = stripe.paymentRequest({
@@ -101,8 +101,8 @@ export default function ApplePay() {
           {
             id: 'express',
             label: 'Express shipping',
-            detail: '$5.00 - Arrives in 1 to 3 days',
-            amount: 5,
+            detail: 'Arrives in 1 to 3 days',
+            amount: 500,
           },
         ],
       });
@@ -140,8 +140,7 @@ export default function ApplePay() {
 
   return (
     <div className="disabled">
-      <ApplePayButton>
-      </ApplePayButton>
+      <ApplePayButton />
     </div>
   );
 };
