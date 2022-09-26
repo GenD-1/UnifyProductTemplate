@@ -9,8 +9,6 @@ const stripe = require('stripe')(process.env.REACT_APP_STRIPE_SECRET_KEY, {
   apiVersion: '2020-03-02',
   maxNetworkRetries: 2,
 });
-const validateCartItems = require('use-shopping-cart/src/serverUtil')
-  .validateCartItems;
 
 /*
  * Product data can be loaded from anywhere. In this case, we’re loading it from
@@ -26,8 +24,6 @@ exports.handler = async (event) => {
   console.log(JSON.parse(event.body))
   try {
     const cartItems = JSON.parse(event.body);
-
-    const line_items = validateCartItems(inventory, cartItems);
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
@@ -46,7 +42,6 @@ exports.handler = async (event) => {
       success_url: `${process.env.URL}/success`,
       cancel_url: process.env.URL,
       line_items: [
-        ...line_items,
         {
           price_data: {
             unit_amount: 350,
