@@ -53,6 +53,7 @@ export default function ApplePay() {
       },
       body: JSON.stringify({ paymentDetails }),
     }).then((res) => {
+      console.log(res)
       return res.json();
     });
     if (response.error) {
