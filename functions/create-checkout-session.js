@@ -21,7 +21,7 @@ const stripe = require('stripe')(process.env.REACT_APP_STRIPE_SECRET_KEY, {
 const inventory = require('./data/products.json');
 
 exports.handler = async (event) => {
-  console.log(JSON.parse(event.body))
+
   try {
     const cartItems = JSON.parse(event.body);
 

@@ -23,13 +23,14 @@ const inventory = require('./data/products.json');
  */
 
 exports.handler = async (event) => {
-  console.log(JSON.parse(event.body))
+
   try {
     const { cartDetails: cartItems, paymentDetails } = JSON.parse(event.body);
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: 400,
       currency: 'usd',
+      payment_method_types: ['card']
       // ...paymentDetails,
       // We are using the metadata to track which items were purchased.
       // We can access this meatadata in our webhook handler to then handle
