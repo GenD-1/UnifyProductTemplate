@@ -35,9 +35,6 @@ export default function PaymentRadio({setPaymentType}: any ) {
             {
                 paymentOptions.map((pay, i) => (
                     <React.Fragment key={i}>
-                    <div>
-                        {i+1 === checked?.payment_id ? 'true' : 'false'}
-                    </div>
                         <button onClick={() => handleSelected(pay)} className="flex w-full items-center justify-between">
                             <span className="flex items-center">
                             <img src={pay.image} alt={pay.name} width='50' />
