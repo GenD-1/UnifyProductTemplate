@@ -104,6 +104,7 @@ export default function ApplePay() {
             amount: 500,
           },
         ],
+        disableWallets: ['googlePay'],
       });
       // Check the availability of the Payment Request API first.
       pr.canMakePayment().then((result) => {

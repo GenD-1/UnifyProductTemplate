@@ -3,8 +3,6 @@ const stripe = require('stripe')(process.env.REACT_APP_STRIPE_SECRET_KEY, {
   maxNetworkRetries: 2,
 });
 
-const inventory = require('./data/products.json');
-
 exports.handler = async (event) => {
 
   try {
