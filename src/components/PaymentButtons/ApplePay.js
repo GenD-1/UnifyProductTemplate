@@ -14,7 +14,7 @@ export default function ApplePay() {
     productQuantity: productQuantity = 0,
   } = {}] = productDetails;
 
-  const totalPrice = Number((productCost*productQuantity).toFixed(0));
+  const 400 = Number((productCost*productQuantity).toFixed(0));
 
   const stripe = useStripe();
   const [paymentRequest, setPaymentRequest] = useState(null);
@@ -85,7 +85,7 @@ export default function ApplePay() {
         currency: 'usd',
         total: {
           label: `${productName} x ${productQuantity}`,
-          amount: totalPrice,
+          amount: 400,
           pending: true,
         },
         requestPayerName: true,
@@ -120,7 +120,7 @@ export default function ApplePay() {
       paymentRequest.update({
         total: {
           label: `${productName} x ${productQuantity}`,
-          amount: totalPrice,
+          amount: 400,
           pending: false,
         },
       });
