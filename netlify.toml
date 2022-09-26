@@ -2,7 +2,3 @@
   command = "npm run build"
   publish = "build"
   functions = "functions"
-
-[template.environment]
-  REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_test_51LlL41DfQvyRGV9Dkmd8hFSOC4jdfUl1LzsE3cmiUmbhOriPKHMbvLpCdRVzGn4PVtn9oNR3qp42Hm30CtK2EMUZ00B7YAXSq5
-  REACT_APP_STRIPE_SECRET_KEY=sk_test_51LlL41DfQvyRGV9D0CITzQPKvWDlnbT8NdFVFPfl2rn1jnhqzv6znl5pmYBBGp3vF2MIuabUMmvoSCZujR1NFgMH00jMtcgRFJ
