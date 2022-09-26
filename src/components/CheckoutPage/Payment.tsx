@@ -19,9 +19,11 @@ export default function Payment(payOption: any) {
             case 1:
                 return <GooglePay />;
             case 2:
-                return <Elements stripe={stripePromise}>
-                    <ApplePay />
-                </Elements>;
+                return (
+                    <Elements stripe={stripePromise}>
+                        <ApplePay />
+                    </Elements>
+                )
             default:
                 return <Button disabled text='Select Card' />;
         }

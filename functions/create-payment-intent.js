@@ -3,24 +3,7 @@ const stripe = require('stripe')(process.env.REACT_APP_STRIPE_SECRET_KEY, {
   maxNetworkRetries: 2,
 });
 
-/*
- * Product data can be loaded from anywhere. In this case, we’re loading it from
- * a local JSON file, but this could also come from an async call to your
- * inventory management service, a database query, or some other API call.
- *
- * The important thing is that the product info is loaded from somewhere trusted
- * so you know the pricing information is accurate.
- */
 const inventory = require('./data/products.json');
-
-/*
- * Product data can be loaded from anywhere. In this case, we’re loading it from
- * a local JSON file, but this could also come from an async call to your
- * inventory management service, a database query, or some other API call.
- *
- * The important thing is that the product info is loaded from somewhere trusted
- * so you know the pricing information is accurate.
- */
 
 exports.handler = async (event) => {
 

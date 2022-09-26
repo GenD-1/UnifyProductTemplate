@@ -44,8 +44,6 @@ export default function ApplePay() {
       },
     };
 
-    console.log(paymentDetails);
-
     const response = await fetch('/.netlify/functions/create-payment-intent', {
       method: 'post',
       headers: {
@@ -53,28 +51,25 @@ export default function ApplePay() {
       },
       body: JSON.stringify({ paymentDetails }),
     }).then((res) => {
-      console.log(res)
       return res.json();
     });
     if (response.error) {
-      // Report to the browser that the payment failed.
       console.log(response.error);
-      event.complete('fail');
+      setErrorMessage(response.error)
     } else {
-      // Report to the browser that the confirmation was successful, prompting
-      // it to close the browser payment method collection interface.
       event.complete('success');
-      // Let Stripe.js handle the rest of the payment flow, including 3D Secure if needed.
       const { error, paymentIntent } = await stripe.confirmCardPayment(
         response.paymentIntent.client_secret
       );
       if (error) {
+        setErrorMessage(error)
         console.log(error);
         return;
       }
       if (paymentIntent.status === 'succeeded') {
-        console.log('success');
+        setSuccessMessage(paymentIntent);
       } else {
+        setErrorMessage(paymentIntent);
         console.warn(
           `Unexpected status: ${paymentIntent.status} for ${paymentIntent}`
         );
@@ -118,7 +113,7 @@ export default function ApplePay() {
       });
     }
   }, [stripe, paymentRequest, totalPrice]);
-console.log('here')
+
   useEffect(() => {
     if (paymentRequest) {
       paymentRequest.update({
