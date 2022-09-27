@@ -9,7 +9,7 @@ import '@fontsource/inter/index.css'
 import "@fontsource/manrope";
 import './theme/global.scss'
 
-const GOOGLE_ANALYTICS_ID: string | undefined = 'UA-243172087-1'//process.env.REACT_APP_GOOGLE_ANALYTICS_ID
+const GOOGLE_ANALYTICS_ID: string | undefined = 'UA-243259852-1'//process.env.REACT_APP_GOOGLE_ANALYTICS_ID
 if (typeof GOOGLE_ANALYTICS_ID === 'string') {
     ReactGA.initialize(GOOGLE_ANALYTICS_ID)
     ReactGA.set({
