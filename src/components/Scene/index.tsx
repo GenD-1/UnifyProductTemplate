@@ -1,14 +1,20 @@
 import { Canvas, extend, useThree } from '@react-three/fiber'
 import { ambientLightProps, backgroundColor, cameraProps, modelScaleValue, orbitControlProps, spotLightProps, spotLightProps2 } from '../../constants/scene'
 import { OrbitControls } from '@react-three/drei'
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import Model from './model'
 import { Loader } from './Loader'
 import { pendantsModelProps } from '../../constants'
 import { EffectComposer, Bloom, Noise } from '@react-three/postprocessing'
+import { useGesture } from "@use-gesture/react";
+import useStore from '../../store'
 
 export const Scene = ({ modelId, bloom }: any) => {
     const scaleValue = modelScaleValue
+
+    const setRotateIdle = useStore((state: any) => state.setRotateIdle)
+
+    const [timeOutInstance, setTimeOutInstance] = useState() as any
 
     const getModelInfo = (id: any) => {
         const result = pendantsModelProps.find((item: any) => (
@@ -20,8 +26,26 @@ export const Scene = ({ modelId, bloom }: any) => {
 
     const modelInfo = getModelInfo( modelId ) as any
 
+    const bind = useGesture({
+        onDragStart: (state: any) => {
+            clearTimeout(timeOutInstance)
+
+            setRotateIdle(false)
+        },
+        onDragEnd: (state: any) => {
+            clearTimeout(timeOutInstance)
+
+            const object = setTimeout(() => {
+                setRotateIdle(true)
+            }, 2000)
+
+            setTimeOutInstance(object)
+        }
+    })
+
     return (
         <Canvas
+            { ...bind() as any }
             gl={{ antialias: true, alpha: true,}}
             camera={{ fov: cameraProps.fov, position: [ cameraProps.position.x, cameraProps.position.y, cameraProps.position.z ] }}
             shadows

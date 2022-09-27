@@ -14,7 +14,8 @@ export const Model = ({scale, modelInfo}: any) => {
 
     const canStartAnim = useStore((state: any) => state.canStartAnim)
     
-    const [ rotate, setRotate ] = useState(false)
+    const rotateIdle = useStore((state: any) => state.rotateIdle)
+    const setRotateIdle = useStore((state: any) => state.setRotateIdle)
 
     const meshRef = useRef(null) as any
 
@@ -67,7 +68,7 @@ export const Model = ({scale, modelInfo}: any) => {
         setTimeout(() => {
             setShowInfo(true)
 
-            setRotate(true)
+            setRotateIdle(true)
         }, 1200)
     }
 
@@ -81,7 +82,7 @@ export const Model = ({scale, modelInfo}: any) => {
     }, [ canStartAnim ])
 
     useFrame(() => {
-        if( rotate ) {
+        if( rotateIdle ) {
             meshRef.current.rotateY( ang2Rad(1) )
         }
     })
