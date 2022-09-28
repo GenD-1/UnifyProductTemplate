@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
 import Loader from '../../components/Loader'
-import Modal from '../../components/Modal'
 import Preload from '../../components/Preload'
 import Scene from '../../components/Scene'
 import { SpriteEffect } from '../../components/Sprite/canvas'
-import { pendantsModelProps, soundArray } from '../../constants'
 import useStore from '../../store'
 import ShareModal from 'react-modal';
+import ThumbnailButtons from './thumbnail'
+import { useCheckout } from '../../context/CheckoutContext'
+import CheckoutModal from '../../components/CheckoutModal'
+import { useDoubleTap } from 'use-double-tap';
 
 ShareModal.setAppElement('#root');
 
@@ -24,14 +26,8 @@ const opacityAnimation1 = keyframes`
     100% { opacity: 0; }
 `
 
-const circleAnimation = keyframes`
-    0% { margin-top: -5px; }
-    50% { margin-top: 5px; }
-    100% { margin-top: -5px; }
-`
-
 const CanvasWrapper = styled.div`
-    height: calc(100% - 56px);
+    height: calc(90% - 56px - 35px);
 
     .sceneWrapper {
         width: 100%;
@@ -56,7 +52,7 @@ const CenterSpriteWrapper = styled.div`
 
 const LogoWrapper = styled.div`
     position: absolute;
-    top: 0;
+    top: 35px;
     height: 15%;
     width: 100%;
     font-family: Apple Chancery;
@@ -81,67 +77,6 @@ const LogoWrapper = styled.div`
     }
 `
 
-const SrcButton = styled.div`
-    position: absolute;
-    width: 0px;
-    height: 0px;
-    border-radius: 100px;
-    transition: all 1s;
-    transform: translate3d(-50%, -50%, 0);
-    left: 50%;
-    top: 50%;
-    right: 0%;
-    bottom: 0%;
-    background: #ffff00;
-    cursor: pointer;
-
-    &.active1 {
-        width: 60px;
-        height: 60px;
-        top: 30%;
-        left: 12%;
-        border: 1px solid #123;
-        animation: ${circleAnimation} 1s infinite;
-        animation-timing-function: ease-in;
-        animation-delay: .2s;
-    }
-
-    &.active2 {
-        width: 60px;
-        height: 60px;
-        top: 64%;
-        left: 12%;
-        border: 1px solid #123;
-
-        animation: ${circleAnimation} 1s infinite;
-        animation-timing-function: ease-in;
-        animation-delay: .5s;
-    }
-
-    &.active3 {
-        width: 60px;
-        height: 60px;
-        top: 30%;
-        left: 88%;
-        border: 1px solid #123;
-
-        animation: ${circleAnimation} 1s infinite;
-        animation-timing-function: ease-in;
-        animation-delay: .8s;
-    }
-
-    &.active4 {
-        width: 60px;
-        height: 60px;
-        top: 64%;
-        left: 88%;
-        border: 1px solid #123;
-
-        animation: ${circleAnimation} 1s infinite;
-        animation-timing-function: ease-in;
-        animation-delay: .3s;
-    }
-`
 
 const ActionWrapper = styled.div`
     // position: absolute;
@@ -164,7 +99,7 @@ const ProductDescWrapper = styled.div`
 
 const ProductName = styled.div`
     position: absolute;
-    top: 14%;
+    top: 12%;
 
     opacity: 0;
     animation: ${opacityAnimation} 5s;
@@ -229,52 +164,42 @@ export const Editor = () => {
     const canStartAnim = useStore((state: any) => state.canStartAnim)
     const setCanStartAnim = useStore((state: any) => state.setCanStartAnim)
 
-    const [isOpen, setIsOpen] = useState(false)
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [copyModelOpen, setCopyModelOpen] = useState(false)
-    const [ selectedButton, setSelectedButton ] = useState(0) as any
+
+    // Testing using false product data
+    // Setting dummy data into ProductDetails array
+    const { productDetails, setProductDetails } = useCheckout();
+    const [checkoutOpen, setCheckoutOpen] = useState(false)
+
+    // Double touch function
+    let lastClick = 0;
+    const checkoutRef = useRef<HTMLInputElement | null>(null);
+
+    const handleTouch = useDoubleTap(() => {
+        handleCheckout();
+    }, 200);
+
+    const handleCheckout = () => {
+        setProductDetails([{
+            productName: 'anchor jewlery',
+            productColor: 'black',
+            productCost: 75.25,
+            productImage: 'sampleImg.png',
+            productQuantity: 1,
+            productDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting.',
+        }]);
+        setCheckoutOpen(true)
+    }
+
+    const closeCheckoutModal = () => {
+        setCheckoutOpen(false)
+    }
 
     const [ bloom, setBloom ] = useState(true)
 
-    const openModal = (index: number) => {
-        setIsOpen(true)
-
-        soundArray['chime'].currentTime = 0
-        soundArray['chime'].play()
-
-        setSelectedButton(index)
-    }
-
-    const closeModal = () => {
-        setIsOpen(false)
-        
-        setSelectedButton(0)
-    }
-
-    useEffect(() => {
-        if (showInfo) {
-            soundArray['chime'].currentTime = 0
-            soundArray['chime'].play()
-
-            setTimeout(() => {
-                soundArray['voice'].play()
-            }, 1500)
-        }
-    }, [showInfo])
-
     useEffect(() => {
         if (canStartAnim) {
-            soundArray['background'].play()
-            soundArray['background'].onended = () => {
-                soundArray['background'].currentTime = 0
-                soundArray['background'].play()
-            }
-
-            setTimeout(() => {
-                soundArray['woosh'].currentTime = 1
-                soundArray['woosh'].play()
-            }, 500)
-
             setTimeout(() => {
                 setBloom(false)
             }, 1000)
@@ -294,19 +219,44 @@ export const Editor = () => {
         }, 2000)
     }
 
-    const getModelInfo = (id: any) => {
-        const result = pendantsModelProps.find((item: any) => (
-            Number(item.id) === Number(id)
-        ))
+    let voiceAudio = new Audio()
+    let chimeAudio = new Audio()
+    let wooshAudio = new Audio()
+    let backgroundAudio = new Audio()
 
-        return result
+    const onStart = () => {
+        setCanStartAnim(true)
+
+        voiceAudio.src = '/assets/sounds/VoiceOver_Template.mp3'
+        chimeAudio.src = '/assets/sounds/ProductExperience_Chime.mp3'
+        wooshAudio.src = '/assets/sounds/ProductExperience_Woosh.mp3'
+        backgroundAudio.src = '/assets/sounds/Background_Template.mp3'
+
+        backgroundAudio.play()
+        backgroundAudio.loop = true
+        
+        setTimeout(() => {
+            chimeAudio.currentTime = 0.3
+            chimeAudio.play()
+        }, 800)
+        
+        setTimeout(() => {
+            voiceAudio.play()
+        }, 2700)
+
+        setTimeout(() => {
+            wooshAudio.currentTime = 1
+            wooshAudio.play()
+        }, 50)
     }
-
-    const modelInfo = getModelInfo( id ) as any
 
     return (
         <div className='overflow-hidden w-screen flex flex-col' style={{ minHeight: '-webkit-fill-available', height: window.innerHeight }}>
             <Preload />
+
+            {/* <div style={{ height: 35 }}></div> */}
+
+            <div style={{ height: '10%' }}></div>
 
             {isLoadFinished ? (
                 <>
@@ -317,42 +267,20 @@ export const Editor = () => {
                     <CanvasWrapper
                         className={`w-full h-full relative flex justify-center items-center`}
                     >
-                        <div className={`sceneWrapper ${ !canStartAnim ? 'opacity-0' : ''}`}>
+                        <div {...handleTouch} className={`sceneWrapper ${ !canStartAnim ? 'opacity-0' : ''}`}>
                             <Scene modelId={id} bloom={ bloom } />
                         </div>
 
                         {canStartAnim ? (
                             <>
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active1' : '' }`} onClick={ () => openModal(1) }>
-                                    { selectedButton === 1 ? (
-                                        <SpriteEffect canStart={ true } width={512} height={270} />
-                                    ): null }
-                                </SrcButton>
+                                <ThumbnailButtons />
 
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active2' : '' }`} onClick={ () => openModal(2) }>
-                                    { selectedButton === 2 ? (
-                                        <SpriteEffect canStart={ true } width={512} height={270} />
-                                    ): null }
-                                </SrcButton>
-
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active3' : '' }`} onClick={ () => openModal(3) }>
-                                    { selectedButton === 3 ? (
-                                        <SpriteEffect canStart={ true } width={512} height={270} />
-                                    ): null }
-                                </SrcButton>
-
-                                <SrcButton className={`flex justify-center items-center ${ showInfo ? 'active4' : '' }`} onClick={ () => openModal(4) }>
-                                    { selectedButton === 4 ? (
-                                        <SpriteEffect canStart={ true } width={512} height={270} />
-                                    ): null }
-                                </SrcButton>
-
-                                <ProductName className='text-4xl my-4'>{ modelInfo.details.name }</ProductName>
+                                <ProductName className='text-4xl my-4'>Product Name</ProductName>
 
                                 <ProductDescWrapper className="text-center">
-                                    <ProductDesc className='text-2xl my-4 first'>What this product is told here</ProductDesc>
-                                    <ProductDesc className='text-2xl my-4 second absolute top-0'>What this product is told here</ProductDesc>
-                                    <ProductDesc className='text-2xl my-4 third absolute top-0'>What this product is told here</ProductDesc>
+                                    <ProductDesc className='text-2xl my-4 first w-full'>Touch the object with your fingers</ProductDesc>
+                                    <ProductDesc className='text-2xl my-4 second absolute top-0 w-full'>Pinch to zoom</ProductDesc>
+                                    <ProductDesc className='text-2xl my-4 third absolute top-0 w-full'>Double tap to purchase!</ProductDesc>
                                 </ProductDescWrapper>
                             </>
                         ) : null}
@@ -396,12 +324,14 @@ export const Editor = () => {
             ) : <Loader />}
 
             {(isLoadFinished && isModalLoaded && !canStartAnim) ? (
-                <div className='absolute t-0 l-0 w-full h-full flex justify-center items-center text-3xl font-Apple-Chancery' onClick={() => setCanStartAnim(true)}>
+                <div className='absolute t-0 l-0 w-full h-full flex justify-center items-center text-3xl font-Apple-Chancery' onClick={ onStart } onTouchStart={ onStart }>
                     Click to Start
                 </div>
             ) : null}
 
-            <Modal isOpen={isOpen} onClose={closeModal} />
+            <CheckoutModal isOpen={ checkoutOpen } onClose={ closeCheckoutModal } />
+
+            
             <ShareModal
                 isOpen={modalIsOpen}
                 onRequestClose={() => handleModal(false)}

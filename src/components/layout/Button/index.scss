@@ -1,0 +1,11 @@
+.buttonClass {
+  border-radius: 8px;
+  text-transform: capitalize;
+  width: 100%;
+  padding: .75rem;
+
+  &.disabled {
+    pointer-events: none!important;
+    background-color: rgba(0,0,0,.25)!important;
+  }
+}

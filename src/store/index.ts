@@ -26,6 +26,11 @@ const useStore = create((set) => ({
 	setCanStartAnim: (payload: any) => set(produce((state: any) => {
 		state.canStartAnim = payload
 	})),
+
+	rotateIdle: false,
+	setRotateIdle: (payload: any) => set(produce((state: any) => {
+		state.rotateIdle = payload
+	}))
 }))
 
 export default useStore

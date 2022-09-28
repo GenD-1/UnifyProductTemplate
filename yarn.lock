@@ -1266,6 +1266,13 @@
   resolved "https://registry.yarnpkg.com/@fontsource/manrope/-/manrope-4.5.11.tgz#a1a59863b6cd2ef8c0b710b632c30fea7035e551"
   integrity sha512-YOdZShn/ply0nKcMYZF4ggrNQD7cDsq6aJ8QkjiA1WVXn6ztD1x7XMd538wEqF+Er+22d00dilEDqpVPFU0FjQ==
 
+"@google-pay/button-react@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@google-pay/button-react/-/button-react-3.0.0.tgz#141d89d76a5279ab4a2cc214b1b4f34bae873fc1"
+  integrity sha512-GFRlPrr4rK4iZz1EqsdSDG/gP/UjUAGg+fU3Ar7OacquhCkn2Npr5Bqh7Zyxztx3WzsSYDWA2VPaXIr/JQq0BQ==
+  dependencies:
+    "@types/googlepay" "^0.6.3"
+
 "@headlessui/react@^1.7.2":
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.7.2.tgz#e6a6a8d38342064a53182f1eb2bf6d9c1e53ba6a"
@@ -2060,6 +2067,11 @@
     "@types/express-serve-static-core" "^4.17.18"
     "@types/qs" "*"
     "@types/serve-static" "*"
+
+"@types/googlepay@^0.6.3":
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/@types/googlepay/-/googlepay-0.6.4.tgz#e0b06ae1f12496c4fa43e52d35e76411dbbee135"
+  integrity sha512-PTt/UCllzl8z5HmhymPpSj6uENZvVKZvCBYdDVmbBVJnLStitxtWrterAOQZkKGlqVdzxNXYeif5hOAMNMS5mw==
 
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
@@ -7695,6 +7707,16 @@ react-feather@^2.0.10:
   integrity sha512-BLhukwJ+Z92Nmdcs+EMw6dy1Z/VLiJTzEQACDUEnWMClhYnFykJCGWQx+NmwP/qQHGX/5CzQ+TGi8ofg2+HzVQ==
   dependencies:
     prop-types "^15.7.2"
+
+react-ga@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-3.3.1.tgz#d8e1f4e05ec55ed6ff944dcb14b99011dfaf9504"
+  integrity sha512-4Vc0W5EvXAXUN/wWyxvsAKDLLgtJ3oLmhYYssx+YzphJpejtOst6cbIHCIyF50Fdxuf5DDKqRYny24yJ2y7GFQ==
+
+react-icons@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.4.0.tgz#a13a8a20c254854e1ec9aecef28a95cdf24ef703"
+  integrity sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
