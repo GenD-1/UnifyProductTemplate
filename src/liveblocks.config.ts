@@ -1,7 +1,7 @@
 import { createClient } from "@liveblocks/client";
 import { createRoomContext } from "@liveblocks/react";
 
-let PUBLIC_KEY = "pk_live_dwx4ql2mT2466xuugesFggk9";
+let PUBLIC_KEY = "pk_dev_KORYEfRtM_26701WjT-f4y8_";
 
 if (!/^pk_(live|test)/.test(PUBLIC_KEY)) {
     console.warn(
