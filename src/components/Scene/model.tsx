@@ -19,7 +19,7 @@ export const Model = ({scale, modelInfo}: any) => {
 
     const meshRef = useRef(null) as any
 
-    const originPosition = [0, 0.05, 0.1]
+    const originPosition = [0, 0.03, 0.1]
     const originRotation = [0, ang2Rad(-90), 0]
 
     const [spring, api] = useSpring(() => ({
