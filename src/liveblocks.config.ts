@@ -16,6 +16,10 @@ const client = createClient({
     publicApiKey: PUBLIC_KEY,
 });
 
+type Presence = {
+    cursor: { x: number, y: number } | null;
+}
+
 export const {
     useMyPresence,
     useMap,
@@ -26,7 +30,8 @@ export const {
     useRoom,
     useOthers,
     RoomProvider,
-} = createRoomContext<any>(client);
+    useUpdateMyPresence
+} = createRoomContext<Presence>(client);
 
 /**
  * This function is used when deploying an example on liveblocks.io.

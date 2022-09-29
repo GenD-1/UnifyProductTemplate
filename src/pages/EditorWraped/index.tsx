@@ -65,7 +65,7 @@ function PageShow() {
 
 function EditorWraped() {
     return (
-        <RoomProvider id="unify-Product-Template" initialPresence={{ shapes: new LiveMap(), }} initialStorage={{ shapes: new LiveMap(), }}>
+        <RoomProvider id="unify-Product-Template" initialPresence={{ cursor: null, }} initialStorage={{ shapes: new LiveMap(), }}>
             {/* <Suspense fallback={<div>Loading...</div>}> */}
             <Room />
             {/* </Suspense> */}
