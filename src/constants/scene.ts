@@ -8,7 +8,7 @@ export const cameraProps = {
     position: {
         x: 0,
         y: 0,
-        z: 0.5,
+        z: 0.3,
     }
 }
 
