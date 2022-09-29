@@ -82,7 +82,7 @@ export default function ThumbnailModal({ isOpen, onClose, info }: any) {
                                     { info && info.src ? (
                                         <ContentWrapper className='w-full h-full'>
                                             { info.type === 'video' ? (
-                                                <video autoPlay muted>
+                                                <video controls>
                                                     <source src={ info.src } type="video/mp4"/>
                                                 </video>
                                             ): (
