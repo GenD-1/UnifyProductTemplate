@@ -8,30 +8,33 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import '@fontsource/inter/index.css'
 import "@fontsource/manrope";
 import './theme/global.scss'
+import { HMSRoomProvider } from '@100mslive/react-sdk';
 
 const GOOGLE_ANALYTICS_ID: string | undefined = 'UA-243259852-1'//process.env.REACT_APP_GOOGLE_ANALYTICS_ID
 if (typeof GOOGLE_ANALYTICS_ID === 'string') {
-    ReactGA.initialize(GOOGLE_ANALYTICS_ID)
-    ReactGA.set({
-        customBrowserType: `mobile`
-    })
+  ReactGA.initialize(GOOGLE_ANALYTICS_ID)
+  ReactGA.set({
+    customBrowserType: `mobile`
+  })
 } else {
-    ReactGA.initialize('test', { testMode: true, debug: true })
+  ReactGA.initialize('test', { testMode: true, debug: true })
 }
 
 window.addEventListener('error', error => {
   ReactGA.exception({
-      description: `${error.message} @ ${error.filename}:${error.lineno}:${error.colno}`,
-      fatal: true
+    description: `${error.message} @ ${error.filename}:${error.lineno}:${error.colno}`,
+    fatal: true
   })
 })
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <HMSRoomProvider>
     <Router>
       <App />
     </Router>
-  </React.StrictMode>
+  </HMSRoomProvider>
+  // </React.StrictMode>
 )
 
 // If you want your app to work offline and load faster, you can change

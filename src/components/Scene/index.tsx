@@ -19,8 +19,8 @@ export const Scene = ({ modelId, bloom }: any) => {
     const [timeOutInstance, setTimeOutInstance] = useState() as any
 
     useEffect(() => {
-        console.log(pointerRef);
-    }, [pointerRef])
+        console.log(cameraProps);
+    }, [cameraProps])
 
     const getModelInfo = (id: any) => {
         const result = pendantsModelProps.find((item: any) => (
@@ -50,9 +50,14 @@ export const Scene = ({ modelId, bloom }: any) => {
     })
 
 
+    const onMouseScroll = (event: any) => {
+        console.log(event);
+    }
+
+
     const onPointerMove = (event: any) => {
 
-        console.log(pointerRef);
+        // console.log(pointerRef);
         // if (modelPage !== currentPage) {
         //     setModelPosition({ id: '123', position: { x: 0, y: 0, z: 0 } })
         // }
@@ -87,7 +92,7 @@ export const Scene = ({ modelId, bloom }: any) => {
 
     return (
 
-        <div onPointerMove={onPointerMove} onPointerLeave={onPointerLeave}
+        <div onPointerMove={onPointerMove} onPointerLeave={onPointerLeave} onScroll={onMouseScroll}
             style={{
                 position: 'relative',
                 width: '100%',
@@ -144,8 +149,6 @@ export const Scene = ({ modelId, bloom }: any) => {
                     minDistance={orbitControlProps.minDistance}
                     target={[orbitControlProps.target[0], orbitControlProps.target[1], orbitControlProps.target[2]]}
                     enablePan={false}
-
-
                 />
 
                 <Suspense fallback={<Loader />}>

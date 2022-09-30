@@ -155,7 +155,7 @@ const customStylescopy = {
     },
 }
 
-export const Editor = () => {
+export const Editor = ({ shareUrl }: any) => {
     const { id } = useParams()
 
     const showInfo = useStore((state: any) => state.showInfo)
@@ -196,7 +196,7 @@ export const Editor = () => {
         setCheckoutOpen(false)
     }
 
-    const [ bloom, setBloom ] = useState(true)
+    const [bloom, setBloom] = useState(true)
 
     useEffect(() => {
         if (canStartAnim) {
@@ -211,7 +211,7 @@ export const Editor = () => {
     }
 
     const handleCopy = () => {
-        navigator.clipboard.writeText(window.location.href)
+        navigator.clipboard.writeText(shareUrl)
         setCopyModelOpen(true)
         setTimeout(() => {
             setCopyModelOpen(false)
@@ -234,12 +234,12 @@ export const Editor = () => {
 
         backgroundAudio.play()
         backgroundAudio.loop = true
-        
+
         setTimeout(() => {
             chimeAudio.currentTime = 0.3
             chimeAudio.play()
         }, 800)
-        
+
         setTimeout(() => {
             voiceAudio.play()
         }, 2700)
@@ -267,8 +267,8 @@ export const Editor = () => {
                     <CanvasWrapper
                         className={`w-full h-full relative flex justify-center items-center`}
                     >
-                        <div {...handleTouch} className={`sceneWrapper ${ !canStartAnim ? 'opacity-0' : ''}`}>
-                            <Scene modelId={id} bloom={ bloom } />
+                        <div {...handleTouch} className={`sceneWrapper ${!canStartAnim ? 'opacity-0' : ''}`}>
+                            <Scene modelId={id} bloom={bloom} />
                         </div>
 
                         {canStartAnim ? (
@@ -313,10 +313,13 @@ export const Editor = () => {
                                     Invite them to a private room
                                 </p>
 
-                                <button onClick={() => handleModal(true)} className='flex flex-col justify-center items-center font-bold'>
-                                    <img src='/assets/ShareIcon.png' width={32} height={32} alt='pic'></img>
-                                    Share
-                                </button>
+                                {shareUrl &&
+
+                                    <button onClick={() => handleModal(true)} className='flex flex-col justify-center items-center font-bold'>
+                                        <img src='/assets/ShareIcon.png' width={32} height={32} alt='pic'></img>
+                                        Share
+                                    </button>
+                                }
                             </ActionWrapper>
                         </>
                     ) : null}
@@ -324,14 +327,14 @@ export const Editor = () => {
             ) : <Loader />}
 
             {(isLoadFinished && isModalLoaded && !canStartAnim) ? (
-                <div className='absolute t-0 l-0 w-full h-full flex justify-center items-center text-3xl font-Apple-Chancery' onClick={ onStart } onTouchStart={ onStart }>
+                <div className='absolute t-0 l-0 w-full h-full flex justify-center items-center text-3xl font-Apple-Chancery' onClick={onStart} onTouchStart={onStart}>
                     Click to Start
                 </div>
             ) : null}
 
-            <CheckoutModal isOpen={ checkoutOpen } onClose={ closeCheckoutModal } />
+            <CheckoutModal isOpen={checkoutOpen} onClose={closeCheckoutModal} />
 
-            
+
             <ShareModal
                 isOpen={modalIsOpen}
                 onRequestClose={() => handleModal(false)}
@@ -341,12 +344,12 @@ export const Editor = () => {
                 <div className='flex flex-col h-full'>
                     <div className='flex'>
                         <div>Share</div>
-                        <img onClick={() => handleModal(false)} src='assets/close.png' alt='close' className='w-6 ml-auto cursor-pointer'></img>
+                        <img onClick={() => handleModal(false)} src='/assets/close.png' alt='close' className='w-6 ml-auto cursor-pointer'></img>
                     </div>
                     {/* <div className='flex h-full justify-center items-center'>Link Copied to clipboard</div> */}
                     <div className='flex h-full justify-center items-center'>
                         <div className='w-10/12 bg-[#f9f9f9] h-[35px] border-[1px] border-solid border-black p-[1%] rounded-sm flex justify-between'>
-                            <span>{window.location.href}</span>
+                            <span>{shareUrl}</span>
                             <div onClick={handleCopy} className='text-[#065fd4] cursor-pointer'>COPY</div>
                         </div>
                     </div>
