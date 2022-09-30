@@ -298,7 +298,7 @@ export const Editor = () => {
                             </LogoWrapper>
 
                             <ActionWrapper className='w-full flex justify-between items-center px-2'>
-                                <button className='flex flex-col justify-center items-center font-bold'>
+                                {/* <button className='flex flex-col justify-center items-center font-bold'>
                                     <img src='/assets/ChatIcon.png' width={32} height={32} alt='pic'></img>
                                     2968
                                 </button>
@@ -306,11 +306,10 @@ export const Editor = () => {
                                 <button className='flex flex-col justify-center items-center font-bold'>
                                     <img src='/assets/Like_HeartIcon.png' width={32} height={32} alt='pic'></img>
                                     1.2M
-                                </button>
+                                </button> */}
 
-                                <p className='text-sm text-center'>
-                                    Share with friends or <br />
-                                    Invite them to a private room
+                                <p className='text-xl text-center'>
+                                    {`Invite friends to a live room! ->`}
                                 </p>
 
                                 <button onClick={() => handleModal(true)} className='flex flex-col justify-center items-center font-bold'>

@@ -1,6 +1,6 @@
 import { Canvas, extend, useThree } from '@react-three/fiber'
 import { ambientLightProps, backgroundColor, cameraProps, modelScaleValue, orbitControlProps, spotLightProps, spotLightProps2 } from '../../constants/scene'
-import { OrbitControls } from '@react-three/drei'
+import { Environment, Lightformer, OrbitControls } from '@react-three/drei'
 import { Suspense, useState } from 'react'
 import Model from './model'
 import { Loader } from './Loader'
@@ -52,8 +52,14 @@ export const Scene = ({ modelId, bloom }: any) => {
         >
             {/* <color attach="background" args={[ 0x000000 ]} /> */}
 
+            <Environment 
+                files={'/assets/hdr/evening_road_01_2k.hdr'} 
+            >
+            </Environment>
+
             <ambientLight 
                 color={ ambientLightProps.color }
+                intensity={0.5}
             />
 
             <spotLight
