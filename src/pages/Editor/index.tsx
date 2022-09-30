@@ -27,7 +27,7 @@ const opacityAnimation1 = keyframes`
 `
 
 const CanvasWrapper = styled.div`
-    height: calc(90% - 56px - 35px);
+    height: calc(87% - 56px - 35px);
 
     .sceneWrapper {
         width: 100%;
@@ -99,7 +99,7 @@ const ProductDescWrapper = styled.div`
 
 const ProductName = styled.div`
     position: absolute;
-    top: 12%;
+    top: 9%;
 
     opacity: 0;
     animation: ${opacityAnimation} 5s;
@@ -256,7 +256,7 @@ export const Editor = () => {
 
             {/* <div style={{ height: 35 }}></div> */}
 
-            <div style={{ height: '10%' }}></div>
+            <div style={{ height: '13%' }}></div>
 
             {isLoadFinished ? (
                 <>
