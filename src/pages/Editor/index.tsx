@@ -11,6 +11,8 @@ import ThumbnailButtons from './thumbnail'
 import { useCheckout } from '../../context/CheckoutContext'
 import CheckoutModal from '../../components/CheckoutModal'
 import { useDoubleTap } from 'use-double-tap';
+import CopyToClipboard from "react-copy-to-clipboard"
+import { Share2 } from 'react-feather'
 
 ShareModal.setAppElement('#root');
 
@@ -144,18 +146,25 @@ const customStyles = {
 
 const customStylescopy = {
     content: {
-        top: '90%',
-        left: '10%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        width: '15%',
-        height: '8%',
+        // top: '90%',
+        // left: '10%',
+        // right: 'auto',
+        // bottom: 'auto',
+        // marginRight: '-50%',
+        // transform: 'translate(-50%, -50%)',
+        // width: '15%',
+        // height: '8%',
+        padding: '10px',
+        transform: ' translateX( -50%)',
+        width: '80%',
+        bottom: '20px',
+        left: ' 50%',
+        background: 'rgb(255, 255, 250)',
+        borderRadius: '4px',
     },
 }
 
-export const Editor = () => {
+export const Editor = ({ shareUrl }: any) => {
     const { id } = useParams()
 
     const showInfo = useStore((state: any) => state.showInfo)
@@ -166,7 +175,7 @@ export const Editor = () => {
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [copyModelOpen, setCopyModelOpen] = useState(false)
-
+    const [copied, setCopied] = useState(false) as any
     // Testing using false product data
     // Setting dummy data into ProductDetails array
     const { productDetails, setProductDetails } = useCheckout();
@@ -196,7 +205,7 @@ export const Editor = () => {
         setCheckoutOpen(false)
     }
 
-    const [ bloom, setBloom ] = useState(true)
+    const [bloom, setBloom] = useState(true)
 
     useEffect(() => {
         if (canStartAnim) {
@@ -211,7 +220,7 @@ export const Editor = () => {
     }
 
     const handleCopy = () => {
-        navigator.clipboard.writeText(window.location.href)
+        navigator.clipboard.writeText(shareUrl)
         setCopyModelOpen(true)
         setTimeout(() => {
             setCopyModelOpen(false)
@@ -234,12 +243,12 @@ export const Editor = () => {
 
         backgroundAudio.play()
         backgroundAudio.loop = true
-        
+
         setTimeout(() => {
             chimeAudio.currentTime = 0.3
             chimeAudio.play()
         }, 800)
-        
+
         setTimeout(() => {
             voiceAudio.play()
         }, 2700)
@@ -267,8 +276,8 @@ export const Editor = () => {
                     <CanvasWrapper
                         className={`w-full h-full relative flex justify-center items-center`}
                     >
-                        <div {...handleTouch} className={`sceneWrapper ${ !canStartAnim ? 'opacity-0' : ''}`}>
-                            <Scene modelId={id} bloom={ bloom } />
+                        <div {...handleTouch} className={`sceneWrapper ${!canStartAnim ? 'opacity-0' : ''}`}>
+                            <Scene modelId={id} bloom={bloom} />
                         </div>
 
                         {canStartAnim ? (
@@ -312,10 +321,13 @@ export const Editor = () => {
                                     {`Invite friends to a live room! ->`}
                                 </p>
 
-                                <button onClick={() => handleModal(true)} className='flex flex-col justify-center items-center font-bold'>
-                                    <img src='/assets/ShareIcon.png' width={32} height={32} alt='pic'></img>
-                                    Share
-                                </button>
+                                {shareUrl &&
+
+                                    <button onClick={() => handleModal(true)} className='flex flex-col justify-center items-center font-bold'>
+                                        <Share2 size={25} />
+                                        Share
+                                    </button>
+                                }
                             </ActionWrapper>
                         </>
                     ) : null}
@@ -323,14 +335,14 @@ export const Editor = () => {
             ) : <Loader />}
 
             {(isLoadFinished && isModalLoaded && !canStartAnim) ? (
-                <div className='absolute t-0 l-0 w-full h-full flex justify-center items-center text-3xl font-Apple-Chancery' onClick={ onStart } onTouchStart={ onStart }>
+                <div className='absolute t-0 l-0 w-full h-full flex justify-center items-center text-3xl font-Apple-Chancery' onClick={onStart} onTouchStart={onStart}>
                     Click to Start
                 </div>
             ) : null}
 
-            <CheckoutModal isOpen={ checkoutOpen } onClose={ closeCheckoutModal } />
+            <CheckoutModal isOpen={checkoutOpen} onClose={closeCheckoutModal} />
 
-            
+
             <ShareModal
                 isOpen={modalIsOpen}
                 onRequestClose={() => handleModal(false)}
@@ -345,8 +357,21 @@ export const Editor = () => {
                     {/* <div className='flex h-full justify-center items-center'>Link Copied to clipboard</div> */}
                     <div className='flex h-full justify-center items-center'>
                         <div className='w-10/12 bg-[#f9f9f9] h-[35px] border-[1px] border-solid border-black p-[1%] rounded-sm flex justify-between'>
-                            <span>{window.location.href}</span>
-                            <div onClick={handleCopy} className='text-[#065fd4] cursor-pointer'>COPY</div>
+                            <span className='text-sm truncate'>{shareUrl}</span>
+                            <CopyToClipboard text={shareUrl}
+                                onCopy={() => {
+                                    setCopied(true)
+                                    setCopyModelOpen(true)
+                                    setTimeout(() => {
+                                        setCopyModelOpen(false)
+                                        handleModal(false);
+                                        setCopied(false)
+                                    }, 2000)
+                                }
+                                }>
+                                <button className='text-[#065fd4] text-sm cursor-pointer'>COPY</button>
+                            </CopyToClipboard>
+
                         </div>
                     </div>
                 </div>
@@ -356,9 +381,10 @@ export const Editor = () => {
                 isOpen={copyModelOpen}
                 style={customStylescopy}
                 contentLabel="Example Modal"
+                className='fixed'
             >
                 <div className='flex flex-col'>
-                    <div className='flex justify-center items-center'>Link Copied to clipboard</div>
+                    <div className='flex justify-center items-center'>  {copied ? <span style={{ color: 'red' }} className='flex h-full justify-center items-center'>Copied.</span> : null}</div>
                 </div>
             </ShareModal>
         </div>
