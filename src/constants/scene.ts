@@ -8,7 +8,7 @@ export const cameraProps = {
     position: {
         x: 0,
         y: 0,
-        z: 0.5,
+        z: 0.3,
     }
 }
 
@@ -44,7 +44,7 @@ export const directionalLightProps = {
 
 export const spotLightProps = {
     color: 0xcccccc,
-    intensity: 1,
+    intensity: .1,
     position: {
         x: -15,
         y: 0,
@@ -62,7 +62,7 @@ export const spotLightProps = {
 
 export const spotLightProps2 = {
     color: 0xcccccc,
-    intensity: 3,
+    intensity: .1,
     position: {
         x: 15,
         y: 0,

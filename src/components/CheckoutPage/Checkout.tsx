@@ -66,7 +66,7 @@ export default function Checkout({close}: any) {
                     <hr className="border-0 my-5 border-t border-gray-300" />
                     <div className="w-full flex items center justify-between mb-4">
                         <img src={`/assets/${productImage}`} alt={productName} className='product-image-class' />
-                        <div className="w-52 sm:w-3/4 h-auto flex flex-col justify-between">
+                        <div className="px-2 sm:w-3/4 h-auto flex flex-col justify-between">
                             <p className="text-sm capitalize font-medium">{productName}</p>
                             <p className="text-xs text-gray-500">{productDescription}</p>
                             <p className="text-xs capitalize text-gray-500">Color: {productColor}</p>

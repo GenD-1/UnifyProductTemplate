@@ -29,7 +29,7 @@ const opacityAnimation1 = keyframes`
 `
 
 const CanvasWrapper = styled.div`
-    height: calc(90% - 56px - 35px);
+    height: calc(87% - 56px - 35px);
 
     .sceneWrapper {
         width: 100%;
@@ -101,7 +101,7 @@ const ProductDescWrapper = styled.div`
 
 const ProductName = styled.div`
     position: absolute;
-    top: 12%;
+    top: 9%;
 
     opacity: 0;
     animation: ${opacityAnimation} 5s;
@@ -196,7 +196,7 @@ export const Editor = ({ shareUrl }: any) => {
             productCost: 75.25,
             productImage: 'sampleImg.png',
             productQuantity: 1,
-            productDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting.',
+            productDescription: 'Lorem Ipsum is the simple dummy text of the printing world.',
         }]);
         setCheckoutOpen(true)
     }
@@ -265,7 +265,7 @@ export const Editor = ({ shareUrl }: any) => {
 
             {/* <div style={{ height: 35 }}></div> */}
 
-            <div style={{ height: '10%' }}></div>
+            <div style={{ height: '13%' }}></div>
 
             {isLoadFinished ? (
                 <>
@@ -307,7 +307,7 @@ export const Editor = ({ shareUrl }: any) => {
                             </LogoWrapper>
 
                             <ActionWrapper className='w-full flex justify-between items-center px-2'>
-                                <button className='flex flex-col justify-center items-center font-bold'>
+                                {/* <button className='flex flex-col justify-center items-center font-bold'>
                                     <img src='/assets/ChatIcon.png' width={32} height={32} alt='pic'></img>
                                     2968
                                 </button>
@@ -315,11 +315,10 @@ export const Editor = ({ shareUrl }: any) => {
                                 <button className='flex flex-col justify-center items-center font-bold'>
                                     <img src='/assets/Like_HeartIcon.png' width={32} height={32} alt='pic'></img>
                                     1.2M
-                                </button>
+                                </button> */}
 
-                                <p className='text-sm text-center'>
-                                    Share with friends or <br />
-                                    Invite them to a private room
+                                <p className='text-xl text-center'>
+                                    {`Invite friends to a live room! ->`}
                                 </p>
 
                                 {shareUrl &&

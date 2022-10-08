@@ -1,7 +1,7 @@
 import { Canvas, extend, useThree } from '@react-three/fiber'
 import { ambientLightProps, backgroundColor, cameraProps, modelScaleValue, orbitControlProps, spotLightProps, spotLightProps2 } from '../../constants/scene'
-import { OrbitControls } from '@react-three/drei'
 import { Suspense, useEffect, useRef, useState } from 'react'
+import { Environment, Lightformer, OrbitControls } from '@react-three/drei'
 import Model from './model'
 import { Loader } from './Loader'
 import { pendantsModelProps } from '../../constants'

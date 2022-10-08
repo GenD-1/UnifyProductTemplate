@@ -41,28 +41,28 @@ const SrcButton = styled.div`
     }
 
     &.active1 {
-        top: 34%;
+        top: 31%;
         left: 12%;
 
         animation-delay: .2s;
     }
 
     &.active2 {
-        top: 68%;
+        top: 65%;
         left: 12%;
 
         animation-delay: .5s;
     }
 
     &.active3 {
-        top: 34%;
+        top: 31%;
         left: 88%;
 
         animation-delay: .8s;
     }
 
     &.active4 {
-        top: 68%;
+        top: 65%;
         left: 88%;
 
         animation-delay: .3s;
