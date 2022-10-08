@@ -1,15 +1,12 @@
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import Avatar from '../../components/Avatar/Avatar';
 import { COLORS_PRESENCE } from '../../constants';
 import { RoomProvider, useMap, useMyPresence, useOthers } from "../../liveblocks.config";
 import Editor from '../Editor';
 import { LiveMap } from "@liveblocks/client";
 import { v1 as uuidv1 } from 'uuid';
-import {
-    selectIsConnectedToRoom,
-    useHMSActions,
-    useHMSStore,
-} from "@100mslive/react-sdk";
+import Video from "twilio-video";
+
 import MicroPhone from "../../components/Microphone";
 
 
@@ -72,78 +69,116 @@ function PageShow({ shareUrl }: any) {
 
 function EditorWraped({ roomName }: any) {
 
-    const isConnected = useHMSStore(selectIsConnectedToRoom);
-    const hmsActions = useHMSActions();
+    // const isConnected = useHMSStore(selectIsConnectedToRoom);
+    // const hmsActions = useHMSActions();
 
     const [shareUrl, setShareUrl] = useState('')
-    const [roomId, setRoomId] = useState('')
+    // const [roomId, setRoomId] = useState('')
+    const [room, setRoom] = useState(null);
+    const [connecting, setConnecting] = useState(false);
+
 
     useEffect(() => {
 
         window.onunload = () => {
-            if (isConnected) {
-                hmsActions.leave();
+            if (room) {
+                handleLogout();
             }
         };
 
-    }, [hmsActions, isConnected]);
+    }, []);
+
+
+    const handleLogout = useCallback(() => {
+        setRoom((prevRoom: any) => {
+            if (prevRoom) {
+                prevRoom.localParticipant.tracks.forEach((trackPub: any) => {
+                    trackPub.track.stop();
+                });
+                prevRoom.disconnect();
+            }
+            return null;
+        });
+    }, []);
+
+    const handleSubmit = useCallback(
+        async (event: any) => {
+            event.preventDefault();
+            setConnecting(true);
+            const data = await fetch("https://twilioaudiobackend.herokuapp.com/join-room", {
+                method: "POST",
+                body: JSON.stringify({
+
+                    roomName: roomName,
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then((res) => {
+                console.log(res);
+                return res.json()
+            });
+
+
+            Video.connect(data.token, {
+                name: roomName,
+                video: false,
+                audio: true
+            })
+                .then((room: any) => {
+                    setConnecting(false);
+                    setRoom(room);
+                    console.log("Room", room)
+                    let newUrl = window.location.protocol + "//" + window.location.host + '/1' + "/" + room.sid + "/" + roomName
+                    console.log(newUrl);
+                    setShareUrl(newUrl)
+
+                })
+                .catch((err) => {
+                    console.error(err);
+                    setConnecting(false);
+                });
+        },
+        [roomName]
+    );
 
     useEffect(() => {
-        let currentUrl = (window.location.href).split('/')
-
-        console.log(currentUrl);
-
-
-        if (currentUrl[4] === undefined) {
-            fetchRoomId();
-        } else {
-            setRoomId(currentUrl[4]);
-        }
-
-    }, [])
-
-
-    const fetchRoomId = async () => {
-        await fetch("https://backend-unify.herokuapp.com/managementToken")
-            .then(res => res.json())
-            .then(
-                async (result) => {
-                    setRoomId(result.roomId)
-                },
-                (error) => {
-                    console.log(error)
+        if (room) {
+            const tidyUp = (event: any) => {
+                if (event.persisted) {
+                    return;
                 }
-            )
-    }
-
-    const fetchToken = async () => {
-        const Id = uuidv1()
-        const response = await fetch(`https://prod-in2.100ms.live/hmsapi/unifymarketplace-audio.app.100ms.live/api/token`, {
-            method: 'POST',
-            body: JSON.stringify({
-                user_id: Id,
-                role: 'speaker',
-                room_id: roomId,
-            }),
-        });
-
-        const { token } = await response.json();
-        let currentUrl = (window.location.href).split('/')
-        if (currentUrl[4] === undefined) {
-            let newUrl = window.location.href + "/" + roomId + "/" + roomName
-            setShareUrl(newUrl)
-        } else {
-            setShareUrl(window.location.href)
+                if (room) {
+                    handleLogout();
+                }
+            };
+            window.addEventListener("pagehide", tidyUp);
+            window.addEventListener("beforeunload", tidyUp);
+            return () => {
+                window.removeEventListener("pagehide", tidyUp);
+                window.removeEventListener("beforeunload", tidyUp);
+            };
         }
-        handleJoint(token)
-    }
+    }, [room, handleLogout]);
 
-    const handleJoint = async (token: any) => {
-        await hmsActions.join({
-            userName: 'result',
-            authToken: token
-        });
-    }
+
+    // useEffect(() => {
+    //     let currentUrl = (window.location.href).split('/')
+
+    //     console.log(currentUrl);
+
+
+    //     if (currentUrl[4] === undefined) {
+    //         fetchRoomId();
+    //     } else {
+    //         setRoomId(currentUrl[4]);
+    //     }
+
+    // }, [])
+
+
+
+
 
 
     return (
@@ -154,10 +189,10 @@ function EditorWraped({ roomName }: any) {
                 </RoomProvider>
             }
             {
-                isConnected ?
-                    <MicroPhone /> :
-                    <div className="control-bar container mx-auto fixed bottom-[3%] sm:bottom-[11%] md:bottom-[9%] sm:right-1 sm:w-[7%] w-[60%] right-0  text-sm">
-                        <button className="btn-control" onClick={fetchToken}>
+                room ?
+                    <MicroPhone roomName={roomName} room={room} handleLogout={handleLogout} /> :
+                    <div className="control-bar container mx-auto fixed bottom-[1%] sm:bottom-[11%] md:bottom-[9%] sm:right-1 sm:w-[7%] w-[60%] right-0  text-sm">
+                        <button className="btn-control" onClick={handleSubmit}>
                             Start
                         </button>
                     </div>

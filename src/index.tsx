@@ -8,7 +8,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import '@fontsource/inter/index.css'
 import "@fontsource/manrope";
 import './theme/global.scss'
-import { HMSRoomProvider } from '@100mslive/react-sdk';
+
 
 const GOOGLE_ANALYTICS_ID: string | undefined = 'UA-243259852-1'//process.env.REACT_APP_GOOGLE_ANALYTICS_ID
 if (typeof GOOGLE_ANALYTICS_ID === 'string') {
@@ -29,11 +29,11 @@ window.addEventListener('error', error => {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
-  <HMSRoomProvider>
-    <Router>
-      <App />
-    </Router>
-  </HMSRoomProvider>
+
+  <Router>
+    <App />
+  </Router>
+
   // </React.StrictMode>
 )
 
