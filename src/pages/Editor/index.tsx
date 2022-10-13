@@ -178,14 +178,6 @@ const customStyles = {
 
 const customStylescopy = {
     content: {
-        // top: '90%',
-        // left: '10%',
-        // right: 'auto',
-        // bottom: 'auto',
-        // marginRight: '-50%',
-        // transform: 'translate(-50%, -50%)',
-        // width: '15%',
-        // height: '8%',
         padding: '10px',
         transform: ' translateX( -50%)',
         width: '80%',
@@ -380,7 +372,8 @@ export const Editor = ({ shareUrl }: any) => {
             <ShareModal
                 isOpen={modalIsOpen}
                 onRequestClose={() => handleModal(false)}
-                style={customStyles}
+                // style={customStyles}
+                className="md:w-1/2 w-9/12 h-[20%]  translate-x-1/2 translate-y-1/2 bg-white inset-auto 2xl:mt-[10%] lg:mt-[15%] md:mt-[20%] sm:mt-[15%] mt-[40%]  md:ml-[0px] ml-[-25%] mr-[50%] p-5"
                 contentLabel="Example Modal"
             >
                 <div className='flex flex-col h-full'>
@@ -388,10 +381,10 @@ export const Editor = ({ shareUrl }: any) => {
                         <div>Share</div>
                         <img onClick={() => handleModal(false)} src='assets/close.png' alt='close' className='w-6 ml-auto cursor-pointer'></img>
                     </div>
-                    {/* <div className='flex h-full justify-center items-center'>Link Copied to clipboard</div> */}
                     <div className='flex h-full justify-center items-center'>
-                        <div className='w-10/12 bg-[#f9f9f9] h-[35px] border-[1px] border-solid border-black p-[1%] rounded-sm flex justify-between'>
-                            <span className='text-sm truncate'>{shareUrl}</span>
+                        <div className='w-full [#f9f9f9] 2xl:h-[50px] md:h-[35px] h-[30px]  border-[1px] border-solid border-black p-[5px] items-center rounded-sm flex justify-between'>
+                            <span className="text-sm truncate">{shareUrl}</span>
+
                             <CopyToClipboard text={shareUrl}
                                 onCopy={() => {
                                     setCopied(true)
