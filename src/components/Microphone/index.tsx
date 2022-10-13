@@ -38,7 +38,7 @@ function MicroPhone({ roomName, room, handleLogout }: any) {
 
 
     return (
-        <div className="control-bar  container mx-auto w-fit absolute sm:bottom-[10%]  sm:right-1  right-0  text-sm"
+        <div className="control-bar container mx-auto w-fit fixed right-[5%] bottom-0 text-sm"
         // width: 70px;
         // position: absolute;
         // bottom: 10%;
