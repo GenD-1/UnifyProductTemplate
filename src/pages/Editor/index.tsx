@@ -54,10 +54,18 @@ const CenterSpriteWrapper = styled.div`
 
 const LogoWrapper = styled.div`
     position: absolute;
-    top: 35px;
+    top: 5%;
     height: 15%;
-    width: 100%;
-    font-family: Apple Chancery;
+    
+    font-family: Apple Chancery; 
+ 
+    // left: 50%;
+    // height: 15%;
+    // font-family: Apple Chancery;
+    // display: block;
+    // margin: 0 auto;
+    // transform: translateX(-50%);
+    // width: 100%;
 
     img {
         max-width: 80%;
@@ -67,6 +75,18 @@ const LogoWrapper = styled.div`
         animation: ${opacityAnimation} 5s;
         animation-delay: 0s;
         animation-fill-mode: forwards;
+// display: block;
+//         max-width: 80%;
+//         max-height: 100%;
+//         opacity: 0;
+//         -webkit-animation: hWnWDR 5s;
+//         animation: hWnWDR 5s;
+//         -webkit-animation-delay: 0s;
+//         animation-delay: 0s;
+//         -webkit-animation-fill-mode: forwards;
+//         animation-fill-mode: forwards;
+//         margin: 0 auto;
+        
     }
 
     .description {
@@ -76,6 +96,18 @@ const LogoWrapper = styled.div`
         animation: ${opacityAnimation} 5s;
         animation-delay: 1s;
         animation-fill-mode: forwards;
+
+
+        // max-width: 80%;
+        // opacity: 0;
+        // -webkit-animation: hWnWDR 5s;
+        // animation: hWnWDR 5s;
+        // -webkit-animation-delay: 1s;
+        // animation-delay: 1s;
+        // -webkit-animation-fill-mode: forwards;
+        // animation-fill-mode: forwards;
+        // display: flex;
+        // margin: 0 auto;
     }
 `
 
@@ -260,18 +292,20 @@ export const Editor = ({ shareUrl }: any) => {
     }
 
     return (
-        <div className='overflow-hidden w-screen flex flex-col' style={{ minHeight: '-webkit-fill-available', height: window.innerHeight }}>
+        <div className='overflow-hidden w-[100%] flex flex-col' style={{ minHeight: '-webkit-fill-available', height: window.innerHeight }}>
             <Preload />
 
             {/* <div style={{ height: 35 }}></div> */}
 
-            <div style={{ height: '13%' }}></div>
+            <div style={{ height: '15%' }}> </div>
+
 
             {isLoadFinished ? (
                 <>
                     <CenterSpriteWrapper className='absolute overflow-hidden w-full flex justify-center items-center'>
                         <SpriteEffect canStart={showInfo} />
                     </CenterSpriteWrapper>
+
 
                     <CanvasWrapper
                         className={`w-full h-full relative flex justify-center items-center`}
@@ -323,7 +357,7 @@ export const Editor = ({ shareUrl }: any) => {
 
                                 {shareUrl &&
 
-                                    <button onClick={() => handleModal(true)} className='flex flex-col justify-center items-center font-bold'>
+                                    <button onClick={() => handleModal(true)} className='flex flex-col justify-center fixed items-center font-bold right-[1%]  bottom-0'>
                                         <Share2 size={25} />
                                         Share
                                     </button>
