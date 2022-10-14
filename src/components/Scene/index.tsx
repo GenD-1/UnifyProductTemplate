@@ -109,6 +109,11 @@ export const Scene = ({ modelId, bloom }: any) => {
             >
                 {/* <color attach="background" args={[ 0x000000 ]} /> */}
 
+                <Environment 
+                    files={'/assets/hdr/evening_road_01_2k.hdr'} 
+                >
+                </Environment>
+
                 <ambientLight
                     color={ambientLightProps.color}
                 />
