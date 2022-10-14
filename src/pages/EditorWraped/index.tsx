@@ -125,12 +125,12 @@ function EditorWraped({ roomName }: any) {
                 audio: true
             })
                 .then((room: any) => {
-                    setConnecting(false);
                     setRoom(room);
                     console.log("Room", room)
                     let newUrl = window.location.protocol + "//" + window.location.host + '/1' + "/" + room.sid + "/" + roomName
                     console.log(newUrl);
                     setShareUrl(newUrl)
+                    setConnecting(false);
 
                 })
                 .catch((err) => {
@@ -192,7 +192,7 @@ function EditorWraped({ roomName }: any) {
                     <MicroPhone roomName={roomName} room={room} handleLogout={handleLogout} /> :
                     <div className="control-bar container mx-auto fixed bottom-[1%] sm:bottom-[11%] md:bottom-[9%] sm:right-1 sm:w-[7%] w-[60%] right-0  text-sm">
                         <button className="btn-control" onClick={handleSubmit}>
-                            Start
+                            {connecting === true ? 'Loading' : 'Start'}
                         </button>
                     </div>
 
